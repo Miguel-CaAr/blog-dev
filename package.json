@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@mdi/js": "^7.4.47",
     "naive-ui": "^2.38.2",
     "pinia": "^2.1.7",
     "vue": "^3.4.29",

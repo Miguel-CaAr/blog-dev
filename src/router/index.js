@@ -1,7 +1,11 @@
+// ----------UTILS----------//
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
-import RegisterView from "../register/RegisterView.vue";
 
+// ----------COMPONENTS----------//
+import HomeView from "../home/views/HomeView.vue";
+import RegisterView from "../auth/views/RegisterView.vue";
+
+// -----------FUNCTIONS----------//
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [

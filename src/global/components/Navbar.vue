@@ -1,5 +1,5 @@
 <template>
-    <nav class="flex bg-black justify-between px-5">
+    <nav class="flex bg-black justify-between px-5 w-[100%]">
         <section class="w-full h-[50px] flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" style="width:24px;height:24px;fill:white;" viewBox="0 0 24 24">
                 <path :d="mdiNewspaper" />

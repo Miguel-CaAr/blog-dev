@@ -27,6 +27,7 @@
 </template>
 
 <script setup>
+// -----------COMPONENTS---------//
 import { mdiNewspaper } from "@mdi/js"
 
 </script>

@@ -22,6 +22,20 @@ const getAllPosts = async () => {
   }
 };
 
+const getAllCategories = async () => {
+  try {
+    const response = await useRequest.getCategories();
+    if (response.data) {
+      homeStore.fillListOfCategories(response.data);
+    }
+  } catch (error) {
+    if (error) {
+      console.log("💩 ~ getAllCategories ~ error:", error);
+    }
+  }
+};
+
 export default {
   getAllPosts,
+  getAllCategories,
 };

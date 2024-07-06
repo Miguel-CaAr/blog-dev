@@ -1,34 +1,81 @@
 <template>
-  <main class="flex mt-20 mb-10 ml-10">
-    <section class="w-[75%] grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 
-      justify-items-start justify-center gap-y-10 gap-x-5">
+  <main class="flex mt-20 mb-10 ml-10 md:mr-10 container-main">
+    <section class="w-[75%] flex flex-wrap min-h-screen container-articles">
 
       <template v-for="(post, index) in homeStore.listOfPosts" :key="index">
-        <div class="w-72 bg-white shadow-md rounded-xl duration-300 hover:scale-1 hover:shadow-2xl">
-          <a href="#">
-            <NImage :src="'https://res.cloudinary.com/duobjlhl9/' + post.miniature" alt="Product"
-              class="max-h-80 rounded-t-lg w-full object-cover" />
-            <div class="px-4 py-3 w-72">
-              <span class="text-gray-400 mr-3 uppercase text-xs">{{ post.user }}</span>
-              <span class="text-gray-400 mr-3 uppercase text-xs">{{ formatDate(post.created_at) }}</span>
-              <p class="text-lg font-bold text-black truncate block capitalize">{{ post.title }}</p>
-              <p class="text-sm text-black h-16 overflow-hidden max-h-[4.5em]">{{ post.content }}</p>
+        <div class="transition-all duration-150 flex w-full px-4 py-6 md:w-1/2 lg:w-1/3">
+          <div
+            class="flex flex-col items-stretch min-h-full pb-4 mb-6 transition-all duration-150 bg-white rounded-lg shadow-lg hover:shadow-2xl">
+            <div class="md:flex-shrink-0 relative w-full">
+              <NImage :src="'https://res.cloudinary.com/duobjlhl9/' + post.miniature" alt="Blog Cover"
+                class="object-cover h-full w-full rounded-lg rounded-b-none" />
             </div>
-          </a>
+
+            <div class="flex items-center justify-between px-4 py-2 overflow-hidden">
+              <span class="text-xs font-medium text-blue-600 uppercase">
+                {{ post.category }}
+              </span>
+              <div class="flex flex-row items-center">
+                <div class="text-xs font-medium text-gray-500 flex flex-row items-center mr-2">
+                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z">
+                    </path>
+                  </svg>
+                  <span> 25 (HC)</span>
+                </div>
+              </div>
+            </div>
+            <hr class="border-gray-300" />
+            <div class="flex flex-wrap items-center flex-1 px-4 py-1 text-center mx-auto">
+              <a href="#" class="hover:underline">
+                <h2 class="text-2xl font-bold tracking-normal text-gray-800">
+                  {{ post.title }}
+                </h2>
+              </a>
+            </div>
+            <hr class="border-gray-300" />
+            <p
+              class="flex flex-row flex-wrap w-full px-4 py-2 overflow-hidden text-sm text-justify text-gray-700 ellipsis">
+              {{ post.content }}
+            </p>
+            <hr class="border-gray-300" />
+            <section class="px-4 py-2 mt-2">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center flex-1">
+                  <img class="object-cover h-10 rounded-full"
+                    src="https://thumbs.dreamstime.com/b/default-avatar-photo-placeholder-profile-icon-eps-file-easy-to-edit-default-avatar-photo-placeholder-profile-icon-124557887.jpg"
+                    alt="Avatar" />
+                  <div class="flex flex-col mx-2">
+                    <a @click="" class="cursor-pointer font-semibold text-gray-700 hover:underline">
+                      {{ post.user }}
+                    </a>
+                    <span class="mx-1 text-xs text-gray-600">{{ formatDate(post.created_at) }}</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
         </div>
       </template>
 
     </section>
 
-    <section class="w-[25%] h-vh px-5">
+    <section class="lg:w-[25%] h-vh px-5 sidebar py-6">
 
       <div class="w-full h-full shadow-md rounded-xl bg-white p-5 flex flex-col gap-y-4">
-        <header class="flex justify-start">
+        <header class="flex justify-between">
           <h1 class="text-2xl font-bold">Categorias</h1>
+          <NButton :disabled="!isFilteredByCategory" size="small" @click="useHome.getAllPosts(), handleFilterCategory(false)">Remover filtros
+          </NButton>
         </header>
         <article class="flex flex-col gap-y-2.5 text-lg">
-          <template v-for="(category, index) in homeStore.listOfCategories" :key="index">
-            <h1>{{ category.title }}</h1>
+          <template v-for="(category, index) in  homeStore.listOfCategories " :key="index">
+            <a @click="useHome.getAllPostsByCategory(category.title), handleFilterCategory(true)"
+              class="cursor-pointer font-semibold text-gray-700 hover:underline">
+              {{ category.title }}
+            </a>
           </template>
         </article>
       </div>
@@ -39,7 +86,7 @@
 
 <script setup>
 // -----------UTILS-----------//
-import { onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import { formatDate } from "../../global/utils/formatDate.js"
 
 // -----------COMPOSABLES-----------//
@@ -52,10 +99,14 @@ import useHomeStore from "../stores/useHomeStore.js";
 import {
   NSkeleton,
   NImage,
+  NButton,
 } from "naive-ui";
 
 // ----------CONFIG----------//
 const homeStore = useHomeStore()
+
+// ----------STATES AND VARIABLES----------//
+const isFilteredByCategory = ref(false);
 
 // ----------FUNCTIONS----------//
 onMounted(async () => {
@@ -64,6 +115,38 @@ onMounted(async () => {
     useHome.getAllCategories(),
   ]);
 });
+
+const handleFilterCategory = (param) => {
+  isFilteredByCategory.value = param;
+}
+
 </script>
 
-<style lang="css" scoped></style>
+<style lang="css" scoped>
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  /* Cambia esto según el número de líneas que se desee mostrar */
+  -webkit-box-orient: vertical;
+  height: calc(1.5em * 5);
+  /* Ajusta la altura basada en el número de líneas y el tamaño de la fuente */
+}
+
+@media (width < 1126px) {
+  .container-main {
+    display: flex;
+    flex-direction: column-reverse;
+    margin-right: 2.5rem
+  }
+
+  .container-articles {
+    width: 100%;
+  }
+
+  .sidebar {
+    width: 100%;
+  }
+}
+</style>

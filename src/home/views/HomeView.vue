@@ -1,8 +1,11 @@
 <template>
-  <main class="flex mt-20 mb-10 ml-10 md:mr-10 container-main">
-    <section class="w-[75%] flex flex-wrap min-h-screen container-articles">
+  <main class="flex mt-20 mb-10 ml-10 md:mr-10 min-h-screen container-main">
 
+    <!-- !----------CONTENEDOR DE ARTICULOS----------- -->
+    <section class="w-[75%] flex flex-wrap container-articles">
       <template v-for="(post, index) in homeStore.listOfPosts" :key="index">
+
+        <!-- !----------CARD DEL POST----------- -->
         <div class="transition-all duration-150 flex w-full px-4 py-6 md:w-1/2 lg:w-1/3">
           <div
             class="flex flex-col items-stretch min-h-full pb-4 mb-6 transition-all duration-150 bg-white rounded-lg shadow-lg hover:shadow-2xl">
@@ -10,7 +13,6 @@
               <NImage :src="'https://res.cloudinary.com/duobjlhl9/' + post.miniature" alt="Blog Cover"
                 class="object-cover h-full w-full rounded-lg rounded-b-none" />
             </div>
-
             <div class="flex items-center justify-between px-4 py-2 overflow-hidden">
               <span class="text-xs font-medium text-blue-600 uppercase">
                 {{ post.category }}
@@ -29,7 +31,7 @@
             </div>
             <hr class="border-gray-300" />
             <div class="flex flex-wrap items-center flex-1 px-4 py-1 text-center mx-auto">
-              <a href="#" class="hover:underline">
+              <a @click="goToPost(post.slug)" class="cursor-pointer hover:underline">
                 <h2 class="text-2xl font-bold tracking-normal text-gray-800">
                   {{ post.title }}
                 </h2>
@@ -59,15 +61,15 @@
           </div>
         </div>
       </template>
-
     </section>
 
-    <section class="lg:w-[25%] h-vh px-5 sidebar py-6">
-
+    <!-- !----------SIDEBAR----------- -->
+    <section v-if="homeStore.listOfCategories.length > 0" class="lg:w-[25%] h-vh px-5 sidebar py-6">
       <div class="w-full h-full shadow-md rounded-xl bg-white p-5 flex flex-col gap-y-4">
         <header class="flex justify-between">
           <h1 class="text-2xl font-bold">Categorias</h1>
-          <NButton :disabled="!isFilteredByCategory" size="small" @click="useHome.getAllPosts(), handleFilterCategory(false)">Remover filtros
+          <NButton :disabled="!isFilteredByCategory" size="small"
+            @click="useHome.getAllPosts(), handleFilterCategory(false)">Remover filtros
           </NButton>
         </header>
         <article class="flex flex-col gap-y-2.5 text-lg">
@@ -79,14 +81,16 @@
           </template>
         </article>
       </div>
-
     </section>
+    <Spinner :loading="homeStore.homeLoadingHttp.loading" :title="homeStore.homeLoadingHttp.title"
+      :description="homeStore.homeLoadingHttp.description" />
   </main>
 </template>
 
 <script setup>
 // -----------UTILS-----------//
 import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import { formatDate } from "../../global/utils/formatDate.js"
 
 // -----------COMPOSABLES-----------//
@@ -97,13 +101,15 @@ import useHomeStore from "../stores/useHomeStore.js";
 
 // -----------COMPONENTS----------//
 import {
-  NSkeleton,
+  NSpin,
   NImage,
   NButton,
 } from "naive-ui";
+import Spinner from '../../global/components/Spinner.vue'
 
 // ----------CONFIG----------//
-const homeStore = useHomeStore()
+const homeStore = useHomeStore();
+const router = useRouter();
 
 // ----------STATES AND VARIABLES----------//
 const isFilteredByCategory = ref(false);
@@ -119,6 +125,10 @@ onMounted(async () => {
 const handleFilterCategory = (param) => {
   isFilteredByCategory.value = param;
 }
+
+const goToPost = (slug) => {
+  router.push(`/post/${slug}`);
+};
 
 </script>
 

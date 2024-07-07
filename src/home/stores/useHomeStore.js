@@ -6,6 +6,11 @@ export default defineStore("useHomeStore", () => {
   //----------STATES----------//
   const listOfPosts = ref([]);
   const listOfCategories = ref([]);
+  const homeLoadingHttp = ref({
+    loading: false,
+    title: "",
+    description: "",
+  });
 
   //----------FUNCTIONS-----------//
   const fillListOfPosts = (data) => {
@@ -20,6 +25,7 @@ export default defineStore("useHomeStore", () => {
     // States
     listOfPosts,
     listOfCategories,
+    homeLoadingHttp,
     // Functions
     fillListOfPosts,
     fillListOfCategories,

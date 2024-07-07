@@ -8,7 +8,7 @@
           bg-black
           fixed top-0 left-0
           z-10 ">
-            <section class="flex gap-3">
+            <section class="flex gap-3 cursor-pointer" @click="goHomePage">
                 <svg xmlns="http://www.w3.org/2000/svg" style="width:24px;height:24px;fill:white;" viewBox="0 0 24 24">
                     <path :d="mdiNewspaper" />
                 </svg>
@@ -51,16 +51,24 @@
 <script setup>
 // -----------UTILS---------//
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 
 // -----------COMPONENTS---------//
 import { mdiNewspaper } from "@mdi/js"
 
-// ---------FUNCIONES---------//
+// ---------CONFIG---------//
+const router = useRouter();
+
+// ---------STATES AND VARIABLES---------//
 const menu = ref(null);
 
-
+// ---------FUNCTIONS---------//
 const hiddenMenu = () => {
     menu.value.classList.toggle('hidden');
+};
+
+const goHomePage = () => {
+    router.push("/");
 };
 
 </script>

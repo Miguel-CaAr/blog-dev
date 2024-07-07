@@ -127,7 +127,7 @@ const handleFilterCategory = (param) => {
 }
 
 const goToPost = (slug) => {
-  router.push(`/post/${slug}`);
+  router.push({ path: '/post', query: { slug } });
 };
 
 </script>

@@ -86,6 +86,9 @@ const ApiService = {
   getCommentById(id) {
     return service.get(`/comments/${id}/`);
   },
+  getCommentsByPost(post) {
+    return service.get(`/comments/?post__slug=${post}`);
+  },
   putComment(id, data) {
     return service.put(`/comments/${id}/`, data);
   },

@@ -1,6 +1,9 @@
 // ----------UTILS----------//
 import { createRouter, createWebHistory } from "vue-router";
 
+// ----------ROUTERS----------//
+import routerPosts from "../modules/posts/router/index.js";
+
 // -----------FUNCTIONS----------//
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,9 +14,13 @@ const router = createRouter({
       component: () => import("../home/views/HomeView.vue"),
     },
     {
-      path: "/post/:slug",
+      path: "/post",
       name: "post",
-      component: () => import("../home/views/PostView.vue"),
+      meta: {
+        title: "Post",
+      },
+      component: () => import("../modules/posts/layouts/layout.vue"),
+      children: routerPosts,
     },
     {
       path: "/register",

@@ -22,7 +22,7 @@ const getAllPosts = async () => {
     }
   } catch (error) {
     if (error) {
-      console.error("💩 ~ getAllPosts ~ error:", error);
+      console.error("🚀 ~ file: useHome.js:25 ~ getAllPosts ~ error:", error);
     }
   } finally {
     homeStore.homeLoadingHttp.loading = false;
@@ -42,7 +42,10 @@ const getAllPostsByCategory = async (category) => {
     }
   } catch (error) {
     if (error) {
-      console.error("💩 ~ getAllPosts ~ error:", error);
+      console.error(
+        "🚀 ~ file: useHome.js:45 ~ getAllPostsByCategory ~ error:",
+        error
+      );
     }
   } finally {
     homeStore.homeLoadingHttp.loading = false;
@@ -62,7 +65,10 @@ const getAllCategories = async () => {
     }
   } catch (error) {
     if (error) {
-      console.log("💩 ~ getAllCategories ~ error:", error);
+      console.error(
+        "🚀 ~ file: useHome.js:65 ~ getAllCategories ~ error:",
+        error
+      );
     }
   } finally {
     homeStore.homeLoadingHttp.loading = false;

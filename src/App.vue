@@ -1,7 +1,7 @@
 <template>
-  <Navbar v-if="!isLoginOrRegisterRoute" />
+  <Navbar v-if="isNotAuthRoute" />
   <RouterView />
-  <Footer v-if="!isLoginOrRegisterRoute" />
+  <Footer v-if="isNotAuthRoute" />
 </template>
 
 <script setup>
@@ -17,7 +17,7 @@ import Footer from './global/components/Footer.vue';
 const route = useRoute();
 
 // ----------FUNCTIONS---------//
-const isLoginOrRegisterRoute = computed(() => route.meta.hideNavbar);
+const isNotAuthRoute = computed(() => route.meta.showNavbar);
 
 </script>
 

@@ -5,11 +5,23 @@ import axios from "axios";
 const baseURL = "http://127.0.0.1:8000/api/";
 
 //-----------FUNCTIONS-----------//
-const instance = axios.create({
+const service = axios.create({
   baseURL,
+  timeout: 10000,
 });
 
-// instance.interceptors.request.use(async (request) => {});
-// instance.interceptors.response.use(async (request) => {});
+service.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("accessToken");
 
-export default instance;
+    if (token && !config.headers.Authorization) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+export default service;

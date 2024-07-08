@@ -1,5 +1,5 @@
 <template>
-  <main class="flex mt-20 mb-10 ml-10 mr-10 min-h-screen container-main">
+  <main v-if="!postStore.postLoadingHttp.loading" class="flex mt-20 mb-10 ml-10 mr-10 min-h-screen container-main">
     <div class="max-w-screen-lg mx-auto">
 
       <main class="mt-10">

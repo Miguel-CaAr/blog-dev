@@ -15,9 +15,13 @@
 </template>
 
 <script setup>
-import { toRefs } from "vue"
+// ---------UTILS----------//
+import { toRefs } from "vue";
+
+// ---------COMPONENTS----------//
 import { NSpin } from "naive-ui";
 
+// ---------STATES AND VARIABLES-----------//
 /**
  * @typedef {Object} Props
  * @property {Boolean} loading Muestra el spinner si es true

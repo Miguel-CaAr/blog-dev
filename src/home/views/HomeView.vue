@@ -1,18 +1,19 @@
 <template>
   <main class="flex mt-20 mb-10 ml-10 md:mr-10 min-h-screen container-main">
-
     <!-- !----------CONTENEDOR DE ARTICULOS----------- -->
     <section class="w-[75%] flex flex-wrap container-articles">
       <template v-for="(post, index) in homeStore.listOfPosts" :key="index">
 
         <!-- !----------CARD DEL POST----------- -->
-        <div class="transition-all duration-150 flex w-full px-4 py-6 md:w-1/2 lg:w-1/3">
+        <div class="transition-all duration-150 flex w-full lg:max-h-[70%] sm:max-h-[90%] px-4 py-6 md:w-1/2 lg:w-1/3">
           <div
             class="flex flex-col items-stretch min-h-full pb-4 mb-6 transition-all duration-150 bg-white rounded-lg shadow-lg hover:shadow-2xl">
+
             <div class="md:flex-shrink-0 relative w-full">
               <NImage :src="'https://res.cloudinary.com/duobjlhl9/' + post.miniature" alt="Blog Cover"
                 class="object-cover h-full w-full rounded-lg rounded-b-none" />
             </div>
+
             <div class="flex items-center justify-between px-4 py-2 overflow-hidden">
               <span class="text-xs font-medium text-blue-600 uppercase">
                 {{ post.category }}
@@ -29,7 +30,9 @@
                 </div>
               </div>
             </div>
+
             <hr class="border-gray-300" />
+
             <div class="flex flex-wrap items-center flex-1 px-4 py-1 text-center mx-auto">
               <a @click="goToPost(post.slug)" class="cursor-pointer hover:underline">
                 <h2 class="text-2xl font-bold tracking-normal text-gray-800">
@@ -37,12 +40,16 @@
                 </h2>
               </a>
             </div>
+
             <hr class="border-gray-300" />
+
             <p
               class="flex flex-row flex-wrap w-full px-4 py-2 overflow-hidden text-sm text-justify text-gray-700 ellipsis">
               {{ post.content }}
             </p>
+
             <hr class="border-gray-300" />
+
             <section class="px-4 py-2 mt-2">
               <div class="flex items-center justify-between">
                 <div class="flex items-center flex-1">
@@ -58,6 +65,7 @@
                 </div>
               </div>
             </section>
+
           </div>
         </div>
       </template>
@@ -66,20 +74,23 @@
     <!-- !----------SIDEBAR----------- -->
     <section v-if="homeStore.listOfCategories.length > 0" class="lg:w-[25%] h-vh px-5 sidebar py-6">
       <div class="w-full h-full shadow-md rounded-xl bg-white p-5 flex flex-col gap-y-4">
-        <header class="flex justify-between">
+
+        <header class="flex justify-between gap-2 flex-wrap">
           <h1 class="text-2xl font-bold">Categorias</h1>
           <NButton :disabled="!isFilteredByCategory" size="small"
             @click="useHome.getAllPosts(), handleFilterCategory(false)">Remover filtros
           </NButton>
         </header>
-        <article class="flex flex-col gap-y-2.5 text-lg">
+
+        <section class="flex flex-col gap-y-2.5 text-lg">
           <template v-for="(category, index) in  homeStore.listOfCategories " :key="index">
             <a @click="useHome.getAllPostsByCategory(category.title), handleFilterCategory(true)"
               class="cursor-pointer font-semibold text-gray-700 hover:underline">
               {{ category.title }}
             </a>
           </template>
-        </article>
+        </section>
+
       </div>
     </section>
     <Spinner :loading="homeStore.homeLoadingHttp.loading" :title="homeStore.homeLoadingHttp.title"
@@ -89,15 +100,17 @@
 
 <script setup>
 // -----------UTILS-----------//
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
-import { formatDate } from "../../global/utils/formatDate.js"
+import { formatDate } from "../../global/utils/formatDate.js";
+import StarterKit from '@tiptap/starter-kit';
 
 // -----------COMPOSABLES-----------//
 import useHome from "../composables/useHome.js";
 
 // -----------STORES-----------//
 import useHomeStore from "../stores/useHomeStore.js";
+import useLoginStore from "../../auth/stores/useLoginStore.js";
 
 // -----------COMPONENTS----------//
 import {
@@ -105,23 +118,22 @@ import {
   NImage,
   NButton,
 } from "naive-ui";
-import Spinner from '../../global/components/Spinner.vue'
+import Spinner from '../../global/components/Spinner.vue';
+import { useEditor, EditorContent } from '@tiptap/vue-3';
 
 // ----------CONFIG----------//
 const homeStore = useHomeStore();
+const loginStore = useLoginStore();
 const router = useRouter();
+const editor = useEditor({
+  content: '<p>I’m running Tiptap with Vue.js. 🎉</p>',
+  extensions: [StarterKit],
+});
 
 // ----------STATES AND VARIABLES----------//
 const isFilteredByCategory = ref(false);
 
 // ----------FUNCTIONS----------//
-onMounted(async () => {
-  await Promise.all([
-    useHome.getAllPosts(),
-    useHome.getAllCategories(),
-  ]);
-});
-
 const handleFilterCategory = (param) => {
   isFilteredByCategory.value = param;
 }
@@ -130,6 +142,18 @@ const goToPost = (slug) => {
   router.push({ path: '/post', query: { slug } });
 };
 
+onMounted(async () => {
+  await Promise.all([
+    useHome.getAllCategories(),
+    useHome.getAllPosts(),
+  ]);
+});
+
+onBeforeUnmount(() => {
+  if (editor.value) {
+    editor.value.destroy();
+  }
+});
 </script>
 
 <style lang="css" scoped>

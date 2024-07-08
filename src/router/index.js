@@ -12,6 +12,7 @@ const router = createRouter({
       path: "/",
       name: "home",
       component: () => import("../home/views/HomeView.vue"),
+      meta: { showNavbar: true },
     },
     {
       path: "/post",
@@ -21,12 +22,13 @@ const router = createRouter({
       },
       component: () => import("../modules/posts/layouts/layout.vue"),
       children: routerPosts,
+      meta: { showNavbar: true },
     },
     {
-      path: "/register",
-      name: "register",
-      component: () => import("../auth/views/RegisterView.vue"),
-      meta: { hideNavbar: true },
+      path: "/auth",
+      name: "auth",
+      component: () => import("../auth/views/AuthView.vue"),
+      meta: { showNavbar: false },
     },
   ],
 });

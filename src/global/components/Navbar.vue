@@ -25,22 +25,20 @@
               pt-4
               text-base text-white
               md:flex
-              md:justify-between 
+              md:justify-between
               md:pt-0">
-                    <li>
-                        <a class="md:p-4 py-2 block hover:text-purple-400" href="#">Categoria</a>
-                    </li>
-                    <li>
-                        <a class="md:p-4 py-2 block hover:text-purple-400" href="#">Categoria</a>
-                    </li>
-                    <li>
-                        <a class="md:p-4 py-2 block hover:text-purple-400" href="#">Categoria</a>
-                    </li>
-                    <li>
-                        <a class="md:p-4 py-2 block hover:text-purple-400" href="#">Categoria</a>
-                    </li>
-                    <li>
-                        <a class="md:p-4 py-2 block hover:text-purple-400 text-purple-500" href="#">Iniciar sesion</a>
+                    <!-- <li>
+                        <a class="md:p-4 py-2 block hover:text-purple-400">Categoria</a>
+                    </li> -->
+                    <li class="flex md:my-3 my-2 justify-center items-center">
+                        <NButton v-if="!loginStore.userAuth.isAuth" @click="goAuthPage" color="#ffffff"
+                            class="login-button md:p-4 text-black flex justify-center w-full">
+                            Iniciar sesion
+                        </NButton>
+                        <NButton v-else @click="loginStore.logout();" type="error"
+                            class="md:p-4 flex justify-center w-full">
+                            Cerrar sesion
+                        </NButton>
                     </li>
                 </ul>
             </section>
@@ -55,8 +53,15 @@ import { useRouter } from "vue-router";
 
 // -----------COMPONENTS---------//
 import { mdiNewspaper } from "@mdi/js"
+import {
+    NButton,
+} from "naive-ui"
+
+// -----------STORES---------//
+import useLoginStore from '../../auth/stores/useLoginStore.js'
 
 // ---------CONFIG---------//
+const loginStore = useLoginStore();
 const router = useRouter();
 
 // ---------STATES AND VARIABLES---------//
@@ -71,6 +76,22 @@ const goHomePage = () => {
     router.push("/");
 };
 
+const goAuthPage = () => {
+    router.push("/auth");
+};
+
 </script>
 
-<style lang="css" scoped></style>
+<style lang="css" scoped>
+.login-button:hover {
+    color: black;
+}
+
+.login-button:active {
+    color: black;
+}
+
+.login-button:focus {
+    color: black;
+}
+</style>

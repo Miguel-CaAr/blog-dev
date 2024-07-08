@@ -2,7 +2,7 @@
   <NModal class="lg:w-[60%] sm:w-[90%]" v-model:show="homeStore.createPostModal" :mask-closable="false"
     :title="'CREAR PUBLICACION'" :preset="'card'" :on-after-leave="() => { }">
     <div>
-      <NUpload :max="1" v-model:value="homeStore.createPostForm.miniature" :on-change="handleUploadChange">
+      <NUpload :max="1" v-model:value="homeStore.createPostForm.miniature" :on-change="handleFileUpload">
         <NUploadDragger>
           <div style="margin-bottom: 12px">
             <NIcon size="48" :depth="3">
@@ -21,15 +21,22 @@
       </NUpload>
     </div>
     <NCard>
-      <NFormItem label=" Titulo">
-        <NInput v-model:value="homeStore.createPostForm.title" type="text"
-          placeholder="Ingrese un titulo a la publicacon" />
-      </NFormItem>
+      <section class="flex justify-between gap-2">
+        <NFormItem class="flex-1" label=" Titulo">
+          <NInput v-model:value="homeStore.createPostForm.title" type="text"
+            placeholder="Ingrese un titulo a la publicacon" />
+        </NFormItem>
+        <NFormItem class="w-[25%]" label="Categoria">
+          <NSelect :options="OPCIONES_CATEGORIES" v-model:value="homeStore.createPostForm.category"
+            placeholder="Seleccione categoria" />
+        </NFormItem>
+      </section>
       <NFormItem label="Contenido">
         <NInput v-model:value="homeStore.createPostForm.content" :rows="10" type="textarea"
           placeholder="Ingrese contenido a la publicacion" />
       </NFormItem>
-      <NButton class="w-full" type="success">Crear publicacion</NButton>
+      <NButton @click="useHome.createPost(homeStore.createPostForm)" class="w-full" type="success">Crear publicacion
+      </NButton>
     </NCard>
   </NModal>
 </template>
@@ -41,12 +48,16 @@ import { ref } from 'vue';
 // ----------STORE----------//
 import useHomeStore from '../stores/useHomeStore.js'
 
+// ----------COMPOSABLES----------//
+import useHome from '../composables/useHome.js'
+
 // ----------COMPONENTS----------//
 import {
   NModal,
   NCard,
   NFormItem,
   NInput,
+  NSelect,
   NButton,
   NUpload,
   NUploadDragger,
@@ -58,19 +69,52 @@ import { mdiImagePlus } from '@mdi/js';
 
 // ----------CONFIG----------//
 const homeStore = useHomeStore();
+const { OPCIONES_CATEGORIES } = useHome;
 
 // ----------FUNCTIONS----------//
-function handleUploadChange(data) {
-  const file = data.fileList[0]?.file;
+/**
+ * !!! CAMBIAR A COMPOSABLE
+ */
+// Configuración de Cloudinary
+const cloudName = 'duobjlhl9'; // Reemplaza con tu cloud name
+const uploadPreset = 'ml_default'; // Reemplaza con tu upload preset
+
+// Función para manejar la subida de archivo
+const handleFileUpload = (event) => {
+  const file = event?.file?.file; // Acceder correctamente al archivo dentro de event
   if (file) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const blobData = e.target.result;
-      homeStore.createPostForm.miniature = blobData;
-    };
-    reader.readAsDataURL(file);
+    uploadImage(file);
+  } else {
+    console.error('No se pudo obtener el archivo para subir.');
   }
-}
+};
+
+// Función para subir la imagen a Cloudinary
+const uploadImage = async (file) => {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('upload_preset', uploadPreset);
+
+  try {
+    const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/upload`, {
+      method: 'POST',
+      body: formData
+    });
+
+    if (!response.ok) {
+      throw new Error('Error al subir la imagen a Cloudinary');
+    }
+
+    const data = await response.json();
+    console.log('Respuesta de Cloudinary:', data);
+
+  } catch (error) {
+    console.error('Error en la subida de la imagen:', error);
+  }
+};
+/**
+ * !!! CAMBIAR A COMPOSABLE
+ */
 
 </script>
 

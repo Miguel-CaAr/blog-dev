@@ -28,17 +28,25 @@
               md:justify-between
               md:pt-0">
                     <!-- <li>
-                        <a class="md:p-4 py-2 block hover:text-purple-400">Categoria</a>
+                        <NButton class="md:p-4 py-2 block hover:text-purple-400">Categoria</Nbutton>
                     </li> -->
-                    <li class="flex md:my-3 my-2 justify-center items-center">
+                    <li class="flex md:my-3 my-2 justify-center items-center gap-2">
                         <NButton v-if="!loginStore.userAuth.isAuth" @click="goAuthPage" color="#ffffff"
                             class="login-button md:p-4 text-black flex justify-center w-full">
                             Iniciar sesion
                         </NButton>
-                        <NButton v-else @click="loginStore.logout();" type="error"
-                            class="md:p-4 flex justify-center w-full">
-                            Cerrar sesion
-                        </NButton>
+                        <template v-else>
+                            <div class="flex gap-3 w-full">
+                                <NButton @click="homeStore.openCreatePostModal()" type="success"
+                                    class="md:p-4 flex justify-center w-1/2">
+                                    Crear publicacion
+                                </NButton>
+                                <NButton @click="loginStore.logout();" type="error"
+                                    class="md:p-4 flex justify-center w-1/2">
+                                    Cerrar sesion
+                                </NButton>
+                            </div>
+                        </template>
                     </li>
                 </ul>
             </section>
@@ -59,9 +67,11 @@ import {
 
 // -----------STORES---------//
 import useLoginStore from '../../auth/stores/useLoginStore.js'
+import useHomeStore from '../../home/stores/useHomeStore.js'
 
 // ---------CONFIG---------//
 const loginStore = useLoginStore();
+const homeStore = useHomeStore();
 const router = useRouter();
 
 // ---------STATES AND VARIABLES---------//

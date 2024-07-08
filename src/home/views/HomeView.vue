@@ -95,6 +95,7 @@
     </section>
     <Spinner :loading="homeStore.homeLoadingHttp.loading" :title="homeStore.homeLoadingHttp.title"
       :description="homeStore.homeLoadingHttp.description" />
+    <CreatePostModal />
   </main>
 </template>
 
@@ -103,7 +104,6 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
 import { formatDate } from "../../global/utils/formatDate.js";
-import StarterKit from '@tiptap/starter-kit';
 
 // -----------COMPOSABLES-----------//
 import useHome from "../composables/useHome.js";
@@ -119,16 +119,12 @@ import {
   NButton,
 } from "naive-ui";
 import Spinner from '../../global/components/Spinner.vue';
-import { useEditor, EditorContent } from '@tiptap/vue-3';
+import CreatePostModal from '../components/CreatePostModal.vue';
 
 // ----------CONFIG----------//
 const homeStore = useHomeStore();
 const loginStore = useLoginStore();
 const router = useRouter();
-const editor = useEditor({
-  content: '<p>I’m running Tiptap with Vue.js. 🎉</p>',
-  extensions: [StarterKit],
-});
 
 // ----------STATES AND VARIABLES----------//
 const isFilteredByCategory = ref(false);
@@ -147,12 +143,6 @@ onMounted(async () => {
     useHome.getAllCategories(),
     useHome.getAllPosts(),
   ]);
-});
-
-onBeforeUnmount(() => {
-  if (editor.value) {
-    editor.value.destroy();
-  }
 });
 </script>
 

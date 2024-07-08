@@ -6,10 +6,19 @@ export default defineStore("useHomeStore", () => {
   //----------STATES----------//
   const listOfPosts = ref([]);
   const listOfCategories = ref([]);
+  const createPostModal = ref(false);
   const homeLoadingHttp = ref({
     loading: false,
     title: "",
     description: "",
+  });
+  const createPostForm = ref({
+    title: null,
+    content: null,
+    miniature: null,
+    published: true,
+    category: null,
+    slug: null,
   });
 
   //----------FUNCTIONS-----------//
@@ -21,13 +30,20 @@ export default defineStore("useHomeStore", () => {
     listOfCategories.value = data;
   };
 
+  const openCreatePostModal = (show = true) => {
+    createPostModal.value = show;
+  };
+
   return {
     // States
     listOfPosts,
     listOfCategories,
     homeLoadingHttp,
+    createPostModal,
+    createPostForm,
     // Functions
     fillListOfPosts,
     fillListOfCategories,
+    openCreatePostModal,
   };
 });

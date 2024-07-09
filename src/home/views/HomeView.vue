@@ -1,7 +1,8 @@
 <template>
-  <main class="flex mt-20 mb-10 ml-10 md:mr-10 min-h-screen container-main">
+  <main class="flex mt-20 mb-10 ml-10 md:mr-10 h-screen container-main">
+
     <!-- !----------CONTENEDOR DE ARTICULOS----------- -->
-    <section class="w-[75%] flex flex-wrap container-articles">
+    <section v-if="homeStore.listOfPosts.length > 0" class="w-[75%] flex flex-wrap container-articles">
       <template v-for="(post, index) in homeStore.listOfPosts" :key="index">
 
         <!-- !----------CARD DEL POST----------- -->
@@ -84,18 +85,24 @@
       </template>
     </section>
 
+    <template v-else>
+      <div class="w-[75%] flex justify-center pt-52">
+        <NEmpty description="No hay publicaciones"></NEmpty>
+      </div>
+    </template>
+
     <!-- !----------SIDEBAR----------- -->
-    <section v-if="homeStore.listOfCategories.length > 0" class="lg:w-[25%] h-vh px-5 sidebar py-6">
+    <section class="lg:w-[25%] h-vh px-5 sidebar py-6">
       <div class="w-full h-full shadow-md rounded-xl bg-white p-5 flex flex-col gap-y-4">
 
         <header class="flex justify-between gap-2 flex-wrap">
           <h1 class="text-2xl font-bold">Categorias</h1>
-          <NButton :disabled="!isFilteredByCategory" size="small"
+          <NButton v-if="homeStore.listOfCategories.length > 0" :disabled="!isFilteredByCategory" size="small"
             @click="useHome.getAllPosts(), handleFilterCategory(false)">Remover filtros
           </NButton>
         </header>
 
-        <section class="flex flex-col gap-y-2.5 text-lg">
+        <section v-if="homeStore.listOfCategories.length > 0" class="flex flex-col gap-y-2.5 text-lg">
           <template v-for="(category, index) in  homeStore.listOfCategories " :key="index">
             <a @click="useHome.getAllPostsByCategory(category.title), handleFilterCategory(true)"
               class="cursor-pointer font-semibold text-gray-700 hover:underline">
@@ -103,9 +110,15 @@
             </a>
           </template>
         </section>
+        <template v-else>
+          <div class="h-full flex justify-center pt-32">
+            <NEmpty description="No hay categorias"></NEmpty>
+          </div>
+        </template>
 
       </div>
     </section>
+
     <Spinner :loading="homeStore.homeLoadingHttp.loading" :title="homeStore.homeLoadingHttp.title"
       :description="homeStore.homeLoadingHttp.description" />
     <CreatePostModal />
@@ -128,7 +141,7 @@ import useLoginStore from "../../auth/stores/useLoginStore.js";
 
 // -----------COMPONENTS----------//
 import {
-  NSpin,
+  NEmpty,
   NImage,
   NButton,
 } from "naive-ui";

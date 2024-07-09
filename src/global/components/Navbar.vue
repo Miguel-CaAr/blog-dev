@@ -26,10 +26,17 @@
               text-base text-white
               md:flex
               md:justify-between
-              md:pt-0">
+              md:pt-0
+              gap-3">
                     <!-- <li>
                         <NButton class="md:p-4 py-2 block hover:text-purple-400">Categoria</Nbutton>
                     </li> -->
+                    <li class="flex md:my-3 my-2 justify-center items-center gap-2">
+                        <NButton @click="homeStore.toggleModeEdition(!homeStore.modeEdition)" v-if="loginStore.userAuth.isAuth"
+                            :type="homeStore.modeEdition ? 'warning' : 'info'" class="md:p-4 justify-center w-full">
+                            {{ homeStore.modeEdition ? 'Desactivar modo edicion' : 'Activar modo edicion' }}
+                        </NButton>
+                    </li>
                     <li class="flex md:my-3 my-2 justify-center items-center gap-2">
                         <NButton v-if="!loginStore.userAuth.isAuth" @click="goAuthPage" color="#ffffff"
                             class="login-button md:p-4 text-black flex justify-center w-full">

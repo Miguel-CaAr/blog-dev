@@ -7,6 +7,7 @@ export default defineStore("useHomeStore", () => {
   const listOfPosts = ref([]);
   const listOfCategories = ref([]);
   const createPostModal = ref(false);
+  const modeEdition = ref(false);
   const homeLoadingHttp = ref({
     loading: false,
     title: "",
@@ -34,6 +35,10 @@ export default defineStore("useHomeStore", () => {
     createPostModal.value = show;
   };
 
+  const toggleModeEdition = (toggle = true) => {
+    modeEdition.value = toggle;
+  };
+
   return {
     // States
     listOfPosts,
@@ -41,9 +46,11 @@ export default defineStore("useHomeStore", () => {
     homeLoadingHttp,
     createPostModal,
     createPostForm,
+    modeEdition,
     // Functions
     fillListOfPosts,
     fillListOfCategories,
     openCreatePostModal,
+    toggleModeEdition
   };
 });

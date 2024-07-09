@@ -10,9 +10,9 @@ export default defineStore("useLoginStore", () => {
   });
 
   const userAuth = ref({
-    email: null,
-    username: null,
-    isAuth: localStorage.getItem("accessToken") !== null,
+    email: JSON.parse(localStorage.getItem("user"))?.email ?? null,
+    username: JSON.parse(localStorage.getItem("user"))?.username ?? null,
+    isAuth: localStorage.getItem("accessToken") ?? null,
   });
 
   // ----------FUNCTIONS----------//
@@ -30,7 +30,7 @@ export default defineStore("useLoginStore", () => {
       isAuth: null,
     };
 
-    localStorage.removeItem("accessToken");
+    localStorage.clear();
   };
 
   return {

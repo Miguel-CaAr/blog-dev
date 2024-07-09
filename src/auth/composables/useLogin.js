@@ -33,7 +33,30 @@ const loginUser = async (data) => {
         content: "Se ha iniciado sesion",
         duration: 3000,
       });
+      getUser();
       loginStore.cleanForm();
+    }
+  } catch (error) {
+    if (error) {
+      notification.error({
+        title: error.name,
+        content: error.message,
+        type: error.type,
+        description: error.naiveDesc,
+        duration: error.naiveDuration,
+      });
+    }
+  } finally {
+  }
+};
+
+const getUser = async () => {
+  try {
+    const response = await useRequest.getUser();
+    if (response) {
+      localStorage.setItem("user", JSON.stringify(response.data));
+      loginStore.userAuth.email = response.data.email;
+      loginStore.userAuth.username = response.data.username;
     }
   } catch (error) {
     if (error) {

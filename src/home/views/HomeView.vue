@@ -10,6 +10,17 @@
             class="flex flex-col items-stretch min-h-full pb-4 mb-6 transition-all duration-150 bg-white rounded-lg shadow-lg hover:shadow-2xl">
 
             <div class="md:flex-shrink-0 relative w-full">
+              <span v-if="homeStore.modeEdition && loginStore.userAuth.username === post.user"
+                class="absolute flex flex-col gap-2 left-2 top-2">
+                <NButton type="info" class="rounded-full p-2"><svg xmlns="http://www.w3.org/2000/svg"
+                    style="width:24px;height:24px;fill:white;" viewBox="0 0 24 24">
+                    <path :d="mdiPencilOutline" />
+                  </svg></NButton>
+                <NButton type="error" class="rounded-full p-0"><svg xmlns="http://www.w3.org/2000/svg"
+                    style="width:24px;height:24px;fill:white;" viewBox="0 0 24 24">
+                    <path :d="mdiTrashCanOutline" />
+                  </svg></NButton>
+              </span>
               <NImage :src="'https://res.cloudinary.com/duobjlhl9/' + post.miniature" alt="Blog Cover"
                 class="object-cover h-full w-full rounded-lg rounded-b-none" />
             </div>
@@ -120,6 +131,7 @@ import {
 } from "naive-ui";
 import Spinner from '../../global/components/Spinner.vue';
 import CreatePostModal from '../components/CreatePostModal.vue';
+import { mdiPencilOutline, mdiTrashCanOutline } from '@mdi/js';
 
 // ----------CONFIG----------//
 const homeStore = useHomeStore();

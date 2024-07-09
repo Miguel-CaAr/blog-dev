@@ -28,6 +28,12 @@
 
           <section class="w-full lg:w-1/4 m-auto mt-12 max-w-screen-sm flex flex-col gap-2 max-h-lvh overflow-auto">
             <h1 class="text-2xl font-bold sticky top-0 bg-white">Comentarios</h1>
+            <section>
+              <NInputGroup>
+                <NInput v-model:value="postStore.comment" placeholder="Comentario" />
+                <NButton @click="usePost.createComment(postStore.comment)">Enviar</NButton>
+              </NInputGroup>
+            </section>
             <template v-for="(comment, index) in postStore?.commentsByPost" :key="index">
 
               <div class="p-4 border-t border-b md:border md:rounded">
@@ -71,7 +77,9 @@ import usePostStore from "../stores/usePostStore.js";
 // ---------COMPONENTS-----------//
 import Spinner from '../../../global/components/Spinner.vue'
 import {
-  NImage,
+  NInputGroup,
+  NInput,
+  NButton,
 } from 'naive-ui'
 
 // ---------CONFIG-----------//

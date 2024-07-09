@@ -5,6 +5,7 @@ import { defineStore } from "pinia";
 export default defineStore("usePostStore", () => {
   // ----------STATES----------//
   const post = ref(null);
+  const comment = ref(null);
   const commentsByPost = ref([]);
   const postLoadingHttp = ref({
     loading: false,
@@ -24,6 +25,7 @@ export default defineStore("usePostStore", () => {
   return {
     // States
     post,
+    comment,
     commentsByPost,
     postLoadingHttp,
     // Functions

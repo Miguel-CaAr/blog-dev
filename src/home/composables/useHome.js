@@ -264,6 +264,23 @@ const uploadImage = async (file) => {
   }
 };
 
+const getComments = async () => {
+  try {
+    const response = await useRequest.getComments();
+    if (response.data) {
+      homeStore.fillListComments(response.data);
+    }
+  } catch (error) {
+    if (error) {
+      console.error(
+        "🚀 ~ file: usePost.js:45 ~ getCommentsByPost ~ error:",
+        error
+      );
+    }
+  } finally {
+  }
+};
+
 const generateSlug = (title) => {
   // Convertir a minúsculas
   let slug = title.toLowerCase();
@@ -289,6 +306,7 @@ export default {
   deletePost,
   editPost,
   getAllCategories,
-  OPCIONES_CATEGORIES,
   createPost,
+  getComments,
+  OPCIONES_CATEGORIES,
 };

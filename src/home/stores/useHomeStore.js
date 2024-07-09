@@ -5,6 +5,7 @@ import { defineStore } from "pinia";
 export default defineStore("useHomeStore", () => {
   //----------STATES----------//
   const listOfPosts = ref([]);
+  const listComments = ref([]);
   const listOfCategories = ref([]);
   const modeEdition = ref(false);
   const createPostModal = ref(false);
@@ -29,6 +30,10 @@ export default defineStore("useHomeStore", () => {
   //----------FUNCTIONS-----------//
   const fillListOfPosts = (data) => {
     listOfPosts.value = data;
+  };
+
+  const fillListComments = (data) => {
+    listComments.value = data;
   };
 
   const fillListOfCategories = (data) => {
@@ -86,6 +91,7 @@ export default defineStore("useHomeStore", () => {
     createPostForm,
     modeEdition,
     deleteConfirmationModal,
+    listComments,
     // Functions
     fillListOfPosts,
     fillListOfCategories,
@@ -94,5 +100,6 @@ export default defineStore("useHomeStore", () => {
     toggleModeEdition,
     clearFormCreatePostModal,
     updatePostModal,
+    fillListComments,
   };
 });

@@ -38,7 +38,7 @@
                       d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z">
                     </path>
                   </svg>
-                  <span> 25 (HC)</span>
+                  <span>{{ countCommentsByPost(post.title) }}</span>
                 </div>
               </div>
             </div>
@@ -55,10 +55,11 @@
 
             <hr class="border-gray-300" />
 
-            <p
-              class="flex flex-row flex-wrap w-full px-4 py-2 overflow-hidden text-sm text-justify text-gray-700 ellipsis">
-              {{ post.content }}
-            </p>
+            <section class="px-4 py-2 overflow-hidden">
+              <p class="text-sm text-justify text-gray-700 ellipsis">
+                {{ post.content }}
+              </p>
+            </section>
 
             <hr class="border-gray-300" />
 
@@ -153,10 +154,17 @@ const goToPost = (slug) => {
   router.push({ path: '/post', query: { slug } });
 };
 
+const countCommentsByPost = (_post) => {
+  const comments = homeStore.listComments.filter(comment => comment.post === _post);
+  if (comments) return comments.length;
+  return []
+}
+
 onMounted(async () => {
   await Promise.all([
     useHome.getAllCategories(),
     useHome.getAllPosts(),
+    useHome.getComments(),
   ]);
 });
 </script>

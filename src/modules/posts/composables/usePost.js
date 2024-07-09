@@ -52,7 +52,27 @@ const getCommentsByPost = async (slug) => {
   }
 };
 
+const createComment = async (data) => {
+  try {
+    const payload = {
+      content: data,
+      post: postStore.post.id,
+    };
+    const response = await useRequest.postComment(payload);
+    if (response.data) {
+      postStore.comment = null;
+      postStore.commentsByPost.unshift(response.data);
+    }
+  } catch (error) {
+    if (error) {
+      console.error("🚀 ~ file: usePost.js:65 ~ createComment ~ error:", error);
+    }
+  } finally {
+  }
+};
+
 export default {
   getPostBySlug,
   getCommentsByPost,
+  createComment,
 };

@@ -6,8 +6,12 @@ export default defineStore("useHomeStore", () => {
   //----------STATES----------//
   const listOfPosts = ref([]);
   const listOfCategories = ref([]);
-  const createPostModal = ref(false);
   const modeEdition = ref(false);
+  const createPostModal = ref(false);
+  const deleteConfirmationModal = ref({
+    show: false,
+    post: null,
+  });
   const homeLoadingHttp = ref({
     loading: false,
     title: "",
@@ -33,6 +37,40 @@ export default defineStore("useHomeStore", () => {
 
   const openCreatePostModal = (show = true) => {
     createPostModal.value = show;
+    modeEdition.value = false;
+  };
+
+  const openDeleteConfirmationModal = (show = true, post = []) => {
+    deleteConfirmationModal.value = {
+      show: show,
+      post: post,
+    };
+  };
+
+  const updatePostModal = (data) => {
+    const category = listOfCategories.value.find(
+      (_category) => _category.title === data.category
+    );
+    createPostModal.value = true;
+    createPostForm.value = {
+      title: data.title,
+      content: data.content,
+      miniature: data.miniature,
+      published: data.published,
+      category: category.id,
+      slug: data.slug,
+    };
+  };
+
+  const clearFormCreatePostModal = () => {
+    createPostForm.value = {
+      title: null,
+      content: null,
+      miniature: null,
+      published: true,
+      category: null,
+      slug: null,
+    };
   };
 
   const toggleModeEdition = (toggle = true) => {
@@ -47,10 +85,14 @@ export default defineStore("useHomeStore", () => {
     createPostModal,
     createPostForm,
     modeEdition,
+    deleteConfirmationModal,
     // Functions
     fillListOfPosts,
     fillListOfCategories,
     openCreatePostModal,
-    toggleModeEdition
+    openDeleteConfirmationModal,
+    toggleModeEdition,
+    clearFormCreatePostModal,
+    updatePostModal,
   };
 });

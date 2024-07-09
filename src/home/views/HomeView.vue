@@ -12,14 +12,15 @@
             <div class="md:flex-shrink-0 relative w-full">
               <span v-if="homeStore.modeEdition && loginStore.userAuth.username === post.user"
                 class="absolute flex flex-col gap-2 left-2 top-2">
-                <NButton type="info" class="rounded-full p-2"><svg xmlns="http://www.w3.org/2000/svg"
-                    style="width:24px;height:24px;fill:white;" viewBox="0 0 24 24">
+                <NButton @click="homeStore.updatePostModal(post)" type="info" class="rounded-full p-2"><svg
+                    xmlns="http://www.w3.org/2000/svg" style="width:24px;height:24px;fill:white;" viewBox="0 0 24 24">
                     <path :d="mdiPencilOutline" />
                   </svg></NButton>
-                <NButton type="error" class="rounded-full p-0"><svg xmlns="http://www.w3.org/2000/svg"
-                    style="width:24px;height:24px;fill:white;" viewBox="0 0 24 24">
+                <NButton @click="homeStore.openDeleteConfirmationModal(true, post)" type="error" class="rounded-full p-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" style="width:24px;height:24px;fill:white;" viewBox="0 0 24 24">
                     <path :d="mdiTrashCanOutline" />
-                  </svg></NButton>
+                  </svg>
+                </NButton>
               </span>
               <NImage :src="'https://res.cloudinary.com/duobjlhl9/' + post.miniature" alt="Blog Cover"
                 class="object-cover h-full w-full rounded-lg rounded-b-none" />
@@ -46,7 +47,7 @@
 
             <div class="flex flex-wrap items-center flex-1 px-4 py-1 text-center mx-auto">
               <a @click="goToPost(post.slug)" class="cursor-pointer hover:underline">
-                <h2 class="text-2xl font-bold tracking-normal text-gray-800">
+                <h2 class="text-2xl md:text-xl sm:text-lg font-bold tracking-normal text-gray-800">
                   {{ post.title }}
                 </h2>
               </a>
@@ -107,6 +108,7 @@
     <Spinner :loading="homeStore.homeLoadingHttp.loading" :title="homeStore.homeLoadingHttp.title"
       :description="homeStore.homeLoadingHttp.description" />
     <CreatePostModal />
+    <DeleteConfirmationModal />
   </main>
 </template>
 
@@ -131,6 +133,7 @@ import {
 } from "naive-ui";
 import Spinner from '../../global/components/Spinner.vue';
 import CreatePostModal from '../components/CreatePostModal.vue';
+import DeleteConfirmationModal from '../components/DeleteConfirmation.vue';
 import { mdiPencilOutline, mdiTrashCanOutline } from '@mdi/js';
 
 // ----------CONFIG----------//

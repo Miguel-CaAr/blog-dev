@@ -1,7 +1,7 @@
 // ------------UTILS----------//
 import { computed } from "vue";
 import useRequest from "../../services/useRequest";
-import { createDiscreteApi } from "naive-ui";
+import { createDiscreteApi, NWatermark } from "naive-ui";
 
 // ------------STORES----------//
 import useHomeStore from "../stores/useHomeStore";
@@ -69,6 +69,89 @@ const getAllPostsByCategory = async (category) => {
     }
   } finally {
     homeStore.homeLoadingHttp.loading = false;
+  }
+};
+
+const deletePost = async (_post) => {
+  try {
+    // homeStore.homeLoadingHttp = {
+    //   loading: true,
+    //   title: `Se esta eliminando ${_post.title}`,
+    //   description: `Espere por favor...`,
+    // };
+    const response = await useRequest.deletePost(_post.slug);
+    if (response.status === 204) {
+      // Eliminar el post de la lista de posts
+      homeStore.listOfPosts = homeStore.listOfPosts.filter(
+        (post) => post.id !== _post.id
+      );
+
+      notification.success({
+        title: `Publicacion eliminada`,
+        content: `La publicacion ${_post.title} ha sido eliminada`,
+        duration: 3000,
+      });
+
+      homeStore.openDeleteConfirmationModal(false);
+    }
+  } catch (error) {
+    if (error) {
+      notification.error({
+        title: error.name,
+        content: error.message,
+        type: error.type,
+        description: error.naiveDesc,
+        duration: error.naiveDuration,
+      });
+    }
+  } finally {
+    // homeStore.homeLoadingHttp.loading = false;
+  }
+};
+
+const editPost = async (_post) => {
+  try {
+    //Se verifica si la imagen ha sido cambiada
+    let miniature = _post.miniature;
+    typeof miniature === "string"
+      ? miniature
+      : (miniature = await uploadImage(_post.miniature));
+    const payload = {
+      title: _post.title,
+      content: _post.content,
+      miniature: miniature,
+      published: true,
+      category: _post.category,
+      slug: generateSlug(_post.title),
+    };
+    const response = await useRequest.putPost(_post.slug, payload);
+    if (response.data) {
+      // Se actualiza el post de la lista de posts
+      homeStore.listOfPosts = homeStore.listOfPosts.map((post) =>
+        post.id === response.data.id ? response.data : post
+      );
+
+      notification.success({
+        title: `Publicacion editada`,
+        content: `La publicacion ${_post.title} ha sido editada`,
+        duration: 3000,
+      });
+
+      homeStore.openCreatePostModal(false);
+      homeStore.clearFormCreatePostModal();
+    }
+  } catch (error) {
+    if (error) {
+      console.error("💩 ~ editPost ~ error:", error);
+      notification.error({
+        title: error.name,
+        content: error.message,
+        type: error.type,
+        description: error.naiveDesc,
+        duration: error.naiveDuration,
+      });
+    }
+  } finally {
   }
 };
 
@@ -203,6 +286,8 @@ const generateSlug = (title) => {
 export default {
   getAllPosts,
   getAllPostsByCategory,
+  deletePost,
+  editPost,
   getAllCategories,
   OPCIONES_CATEGORIES,
   createPost,

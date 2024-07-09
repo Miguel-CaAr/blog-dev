@@ -1,6 +1,7 @@
 <template>
   <NModal class="lg:w-[60%] sm:w-[90%]" v-model:show="homeStore.createPostModal" :mask-closable="false"
-    :title="'CREAR PUBLICACION'" :preset="'card'" :on-after-leave="() => { }">
+    :title="homeStore.modeEdition ? 'EDITAR PUBLICACON' : 'CREAR PUBLICACION'" :preset="'card'"
+    :on-after-leave="homeStore.clearFormCreatePostModal">
     <div>
       <NUpload :max="1" v-model:value="homeStore.createPostForm.miniature" :on-change="handleFileUpload">
         <NUploadDragger>
@@ -35,7 +36,11 @@
         <NInput v-model:value="homeStore.createPostForm.content" :rows="10" type="textarea"
           placeholder="Ingrese contenido a la publicacion" />
       </NFormItem>
-      <NButton @click="useHome.createPost(homeStore.createPostForm)" class="w-full" type="success">Crear publicacion
+      <NButton v-if="homeStore.modeEdition" @click="useHome.editPost(homeStore.createPostForm)" class="w-full"
+        type="info">Editar publicacion
+      </NButton>
+      <NButton v-else @click="useHome.createPost(homeStore.createPostForm)" class="w-full" type="success">Crear
+        publicacion
       </NButton>
     </NCard>
   </NModal>

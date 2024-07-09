@@ -73,48 +73,17 @@ const { OPCIONES_CATEGORIES } = useHome;
 
 // ----------FUNCTIONS----------//
 /**
- * !!! CAMBIAR A COMPOSABLE
+ * Funcion para almacenar el archivo en el store
+ * @param {*} event Archivo almacenado
  */
-// Configuración de Cloudinary
-const cloudName = 'duobjlhl9'; // Reemplaza con tu cloud name
-const uploadPreset = 'ml_default'; // Reemplaza con tu upload preset
-
-// Función para manejar la subida de archivo
 const handleFileUpload = (event) => {
-  const file = event?.file?.file; // Acceder correctamente al archivo dentro de event
+  const file = event?.file?.file;
   if (file) {
-    uploadImage(file);
+    homeStore.createPostForm.miniature = file;
   } else {
     console.error('No se pudo obtener el archivo para subir.');
   }
 };
-
-// Función para subir la imagen a Cloudinary
-const uploadImage = async (file) => {
-  const formData = new FormData();
-  formData.append('file', file);
-  formData.append('upload_preset', uploadPreset);
-
-  try {
-    const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/upload`, {
-      method: 'POST',
-      body: formData
-    });
-
-    if (!response.ok) {
-      throw new Error('Error al subir la imagen a Cloudinary');
-    }
-
-    const data = await response.json();
-    console.log('Respuesta de Cloudinary:', data);
-
-  } catch (error) {
-    console.error('Error en la subida de la imagen:', error);
-  }
-};
-/**
- * !!! CAMBIAR A COMPOSABLE
- */
 
 </script>
 

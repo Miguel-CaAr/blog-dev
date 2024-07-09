@@ -21,6 +21,13 @@ const { notification, message } = createDiscreteApi(
     },
   }
 );
+/**
+ * !Hacer .env
+ */
+// Configuración de Cloudinary
+const cloudName = "duobjlhl9"; // Reemplaza con tu cloud name
+const uploadPreset = "ml_default"; // Reemplaza con tu upload preset
+
 // ----------FUNCTIONS----------//
 const getAllPosts = async () => {
   try {
@@ -100,11 +107,13 @@ const OPCIONES_CATEGORIES = computed(() => {
 
 const createPost = async (data) => {
   try {
+    //Se sube la imagen al cloud y se obtiene la url
+    const miniature = await uploadImage(data.miniature);
     const payload = {
       title: data.title,
       category: data.category,
       content: data.content,
-      miniature: data.miniature,
+      miniature: miniature,
       published: data.published,
       slug: generateSlug(data.title),
     };
@@ -116,6 +125,7 @@ const createPost = async (data) => {
         duration: 3000,
       });
     }
+    homeStore.listOfPosts.unshift(response.data);
   } catch (error) {
     if (error) {
       notification.error({
@@ -127,6 +137,47 @@ const createPost = async (data) => {
       });
     }
   } finally {
+    homeStore.openCreatePostModal(false);
+  }
+};
+
+// Función para subir la imagen a Cloudinary
+const uploadImage = async (file) => {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", uploadPreset);
+
+  try {
+    const response = await fetch(
+      `https://api.cloudinary.com/v1_1/${cloudName}/upload`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Error al subir la imagen a Cloudinary");
+    }
+
+    const data = await response.json();
+
+    //Se corta la url para retornar unicamente el identificador de la imagen
+    const imageId = data.url.split(
+      "http://res.cloudinary.com/duobjlhl9/image/upload/"
+    )[1];
+
+    return imageId;
+  } catch (error) {
+    if (error) {
+      notification.error({
+        title: error.name,
+        content: error.message,
+        type: error.type,
+        description: error.naiveDesc,
+        duration: error.naiveDuration,
+      });
+    }
   }
 };
 

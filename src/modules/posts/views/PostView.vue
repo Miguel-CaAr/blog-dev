@@ -28,7 +28,7 @@
 
           <section class="w-full lg:w-1/4 m-auto mt-12 max-w-screen-sm flex flex-col gap-2 max-h-lvh overflow-auto">
             <h1 class="text-2xl font-bold sticky top-0 bg-white">Comentarios</h1>
-            <section>
+            <section v-if="loginStore.userAuth.isAuth">
               <NInputGroup>
                 <NInput v-model:value="postStore.comment" placeholder="Comentario" />
                 <NButton @click="usePost.createComment(postStore.comment)">Enviar</NButton>
@@ -73,6 +73,7 @@ import usePost from "../composables/usePost.js";
 
 // ---------STORES-----------//
 import usePostStore from "../stores/usePostStore.js";
+import useLoginStore from '../../../auth/stores/useLoginStore.js'
 
 // ---------COMPONENTS-----------//
 import Spinner from '../../../global/components/Spinner.vue'
@@ -85,6 +86,7 @@ import {
 // ---------CONFIG-----------//
 const router = useRoute();
 const postStore = usePostStore();
+const loginStore = useLoginStore();
 
 // ---------STATES AND VARIABLES-----------//
 const postSlug = router.query.slug; //Slug obtenido de la ruta

@@ -33,8 +33,8 @@
         </NFormItem>
       </section>
       <NFormItem label="Contenido">
-        <NInput v-model:value="homeStore.createPostForm.content" :rows="10" type="textarea"
-          placeholder="Ingrese contenido a la publicacion" />
+        <NInput v-model:value="homeStore.createPostForm.content" class="resize-y overflow-auto h-auto" :rows="10"
+          type="textarea" placeholder="Ingrese contenido a la publicacion" />
       </NFormItem>
       <NButton v-if="homeStore.modeEdition" @click="useHome.editPost(homeStore.createPostForm)" class="w-full"
         type="info">Editar publicacion

@@ -8,8 +8,8 @@
             class="border rounded-lg px-3 py-2 mt-1 text-sm w-full" />
         </NFormItem>
         <NFormItem label="Contraseña">
-          <NInput v-model:value="loginStore.form.password" type="password" placeholder="Ingrese contraseña"
-            class="border rounded-lg px-3 py-2 mt-1 text-sm w-full" />
+          <NInput @keydown.enter.prevent="useLogin.loginUser(loginStore.form)" v-model:value="loginStore.form.password"
+            type="password" placeholder="Ingrese contraseña" class="border rounded-lg px-3 py-2 mt-1 text-sm w-full" />
         </NFormItem>
         <NButton @click="useLogin.loginUser(loginStore.form)" size="large" type="info"
           class="rounded-lg text-sm text-center w-full">

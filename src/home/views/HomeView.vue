@@ -1,129 +1,134 @@
 <template>
-  <main class="flex mt-20 mb-10 ml-10 md:mr-10 h-screen container-main">
+  <!-- ! ----------HEADER--------- -->
+  <header class="w-full container mx-auto">
+    <div class="flex flex-col items-center py-12">
+      <a class="font-bold text-gray-800 uppercase hover:text-gray-700 text-5xl">
+        Blog
+      </a>
+      <p class="text-lg text-gray-600">
+        Hola soy un blog
+      </p>
+    </div>
+  </header>
 
-    <!-- !----------CONTENEDOR DE ARTICULOS----------- -->
-    <section v-if="homeStore.listOfPosts.length > 0" class="w-[75%] flex flex-wrap container-articles">
-      <template v-for="(post, index) in homeStore.listOfPosts" :key="index">
-
-        <!-- !----------CARD DEL POST----------- -->
-        <div class="transition-all duration-150 flex w-full lg:max-h-[70%] sm:max-h-[90%] px-4 py-6 md:w-1/2 lg:w-1/3">
-          <div
-            class="flex flex-col items-stretch min-h-full pb-4 mb-6 transition-all duration-150 bg-white rounded-lg shadow-lg hover:shadow-2xl">
-
-            <div class="md:flex-shrink-0 relative w-full">
-              <span v-if="homeStore.modeEdition && loginStore.userAuth.username === post.user"
-                class="absolute flex flex-col gap-2 left-2 top-2">
-                <NButton @click="homeStore.updatePostModal(post)" type="info" class="rounded-full p-2"><svg
-                    xmlns="http://www.w3.org/2000/svg" style="width:24px;height:24px;fill:white;" viewBox="0 0 24 24">
-                    <path :d="mdiPencilOutline" />
-                  </svg></NButton>
-                <NButton @click="homeStore.openDeleteConfirmationModal(true, post)" type="error" class="rounded-full p-0">
-                  <svg xmlns="http://www.w3.org/2000/svg" style="width:24px;height:24px;fill:white;" viewBox="0 0 24 24">
-                    <path :d="mdiTrashCanOutline" />
-                  </svg>
-                </NButton>
-              </span>
-              <NImage :src="'https://res.cloudinary.com/duobjlhl9/' + post.miniature" alt="Blog Cover"
-                class="object-cover h-full w-full rounded-lg rounded-b-none" />
-            </div>
-
-            <div class="flex items-center justify-between px-4 py-2 overflow-hidden">
-              <span class="text-xs font-medium text-blue-600 uppercase">
-                {{ post.category }}
-              </span>
-              <div class="flex flex-row items-center">
-                <div class="text-xs font-medium text-gray-500 flex flex-row items-center mr-2">
-                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z">
-                    </path>
-                  </svg>
-                  <span>{{ countCommentsByPost(post.title) }}</span>
-                </div>
-              </div>
-            </div>
-
-            <hr class="border-gray-300" />
-
-            <div class="flex flex-wrap items-center flex-1 px-4 py-1 text-center mx-auto">
-              <a @click="goToPost(post.slug)" class="cursor-pointer hover:underline">
-                <h2 class="text-2xl md:text-xl sm:text-lg font-bold tracking-normal text-gray-800">
-                  {{ post.title }}
-                </h2>
-              </a>
-            </div>
-
-            <hr class="border-gray-300" />
-
-            <section class="px-4 py-2 overflow-hidden">
-              <p class="text-sm text-justify text-gray-700 ellipsis">
-                {{ post.content }}
-              </p>
-            </section>
-
-            <hr class="border-gray-300" />
-
-            <section class="px-4 py-2 mt-2">
-              <div class="flex items-center justify-between">
-                <div class="flex items-center flex-1">
-                  <img class="object-cover h-10 rounded-full"
-                    src="https://thumbs.dreamstime.com/b/default-avatar-photo-placeholder-profile-icon-eps-file-easy-to-edit-default-avatar-photo-placeholder-profile-icon-124557887.jpg"
-                    alt="Avatar" />
-                  <div class="flex flex-col mx-2">
-                    <a @click="" class="cursor-pointer font-semibold text-gray-700 hover:underline">
-                      {{ post.user }}
-                    </a>
-                    <span class="mx-1 text-xs text-gray-600">{{ formatDate(post.created_at) }}</span>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-          </div>
-        </div>
-      </template>
-    </section>
-
-    <template v-else>
-      <div class="w-[75%] flex justify-center pt-52">
-        <NEmpty description="No hay publicaciones"></NEmpty>
-      </div>
-    </template>
-
-    <!-- !----------SIDEBAR----------- -->
-    <section class="lg:w-[25%] h-vh px-5 sidebar py-6">
-      <div class="w-full h-full shadow-md rounded-xl bg-white p-5 flex flex-col gap-y-4">
-
-        <header class="flex justify-between gap-2 flex-wrap">
-          <h1 class="text-2xl font-bold">Categorias</h1>
-          <NButton v-if="homeStore.listOfCategories.length > 0" :disabled="!isFilteredByCategory" size="small"
-            @click="useHome.getAllPosts(), handleFilterCategory(false)">Remover filtros
-          </NButton>
-        </header>
-
-        <section v-if="homeStore.listOfCategories.length > 0" class="flex flex-col gap-y-2.5 text-lg">
-          <template v-for="(category, index) in  homeStore.listOfCategories " :key="index">
-            <a @click="useHome.getAllPostsByCategory(category.title), handleFilterCategory(true)"
-              class="cursor-pointer font-semibold text-gray-700 hover:underline">
-              {{ category.title }}
-            </a>
-          </template>
-        </section>
-        <template v-else>
-          <div class="h-full flex justify-center pt-32">
-            <NEmpty description="No hay categorias"></NEmpty>
-          </div>
+  <!-- ! ------------CATEGORIES------------ -->
+  <nav class="w-full py-4 border-t border-b bg-gray-100" x-data="{ open: false }">
+    <div class="block sm:hidden">
+      <a class="md:hidden text-base font-bold uppercase text-center flex justify-center items-center"
+        @click="open = !open">
+        Categorias <i :class="open ? 'fa-chevron-down' : 'fa-chevron-up'" class="fas ml-2"></i>
+      </a>
+    </div>
+    <div :class="open ? 'block' : 'hidden'" class="w-full flex-grow sm:flex sm:items-center sm:w-auto">
+      <div
+        class="w-full container mx-auto flex flex-col sm:flex-row items-center justify-center text-sm font-bold uppercase mt-0 px-6 py-2">
+        <template v-for="(category, index) in  homeStore.listOfCategories " :key="index">
+          <a @click="useHome.getAllPostsByCategory(category.title), handleFilterCategory(true)" class=" cursor-pointer hover:bg-gray-400
+            rounded py-2 px-4 mx-2">{{ category.title }}</a>
         </template>
-
       </div>
+    </div>
+  </nav>
+
+  <!-- ! ------------POST SECTION----------- -->
+  <div class="container mx-auto flex flex-wrap py-6">
+
+    <!-- Posts Section -->
+    <section class="w-full md:w-2/3 flex flex-col items-center px-3">
+      <section class="w-full flex justify-end">
+        <NButton v-if="homeStore.listOfCategories.length > 0" :disabled="!isFilteredByCategory" size="small"
+          @click="useHome.getAllPosts(), handleFilterCategory(false)">Remover filtros
+        </NButton>
+      </section>
+
+      <template v-for="(post, index) in homeStore.listOfPosts" :key="index">
+        <article class="flex flex-col shadow my-4">
+          <a class="relative hover:opacity-75">
+            <span v-if="homeStore.modeEdition && loginStore.userAuth.username === post.user"
+              class="absolute flex flex-col gap-2 left-2 top-2">
+              <NButton @click="homeStore.updatePostModal(post)" type="info" class="rounded-full p-2"><svg
+                  xmlns="http://www.w3.org/2000/svg" style="width:24px;height:24px;fill:white;" viewBox="0 0 24 24">
+                  <path :d="mdiPencilOutline" />
+                </svg></NButton>
+              <NButton @click="homeStore.openDeleteConfirmationModal(true, post)" type="error" class="rounded-full p-0">
+                <svg xmlns="http://www.w3.org/2000/svg" style="width:24px;height:24px;fill:white;" viewBox="0 0 24 24">
+                  <path :d="mdiTrashCanOutline" />
+                </svg>
+              </NButton>
+            </span>
+            <NImage :src="'https://res.cloudinary.com/duobjlhl9/' + post.miniature" alt="Blog Cover" class="" />
+          </a>
+          <div class="bg-white flex flex-col justify-start p-6">
+            <div class="flex justify-between">
+              <a class="text-blue-700 text-sm font-bold uppercase pb-4">{{ post.category }}</a>
+              <div class="text-xs font-medium text-gray-500 flex flex-row items-center mr-2">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z">
+                  </path>
+                </svg>
+                <span>{{ countCommentsByPost(post.title) }}</span>
+              </div>
+            </div>
+            <!-- TITLE -->
+            <a @click="goToPost(post.slug)" class="cursor-pointer text-3xl font-bold hover:text-gray-700 pb-4">{{
+              post.title }}</a>
+            <p class="text-sm pb-3">
+              Por <a class="font-semibold hover:text-gray-800">{{ post.user }}</a>, {{ formatDate(post.created_at)
+              }}
+            </p>
+            <a class="pb-6 ellipsis">{{ post.content }}</a>
+            <a @click="goToPost(post.title)" class="pt-2 cursor-pointer uppercase text-gray-800 hover:text-black">Continuar
+              leyendo <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </article>
+      </template>
+
+      <!-- !----------Pagination------------ -->
+      <div class="flex items-center py-8">
+        <a
+          class="h-10 w-10 bg-blue-800 hover:bg-blue-600 font-semibold text-white text-sm flex items-center justify-center">1</a>
+        <a
+          class="h-10 w-10 font-semibold text-gray-800 hover:bg-blue-600 hover:text-white text-sm flex items-center justify-center">2</a>
+        <a
+          class="h-10 w-10 font-semibold text-gray-800 hover:text-gray-900 text-sm flex items-center justify-center ml-3">Next
+          <i class="fas fa-arrow-right ml-2"></i></a>
+      </div>
+
     </section>
 
-    <Spinner :loading="homeStore.homeLoadingHttp.loading" :title="homeStore.homeLoadingHttp.title"
-      :description="homeStore.homeLoadingHttp.description" />
-    <CreatePostModal />
-    <DeleteConfirmationModal />
-  </main>
+    <!-- ! -----------Sidebar Section---------- -->
+    <aside class="w-full md:w-1/3 flex flex-col items-center px-3">
+
+      <div class="w-full bg-white shadow flex flex-col my-4 p-6">
+        <p class="text-xl font-semibold pb-5">Lorem ipsum</p>
+        <p class="pb-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas mattis est eu odio sagittis
+          tristique. Vestibulum ut finibus leo. In hac habitasse platea dictumst.</p>
+        <a
+          class="w-full bg-blue-800 text-white font-bold text-sm uppercase rounded hover:bg-blue-700 flex items-center justify-center px-2 py-3 mt-4">
+          Get to know us
+        </a>
+      </div>
+
+      <div class="w-full bg-white shadow flex flex-col my-4 p-6">
+        <p class="text-xl font-semibold pb-5">Instagram</p>
+        <div class="grid grid-cols-3 gap-3">
+          <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=1">
+        </div>
+        <a
+          class="w-full bg-blue-800 text-white font-bold text-sm uppercase rounded hover:bg-blue-700 flex items-center justify-center px-2 py-3 mt-6">
+          <i class="fab fa-instagram mr-2"></i> Follow @Lorem
+        </a>
+      </div>
+
+    </aside>
+
+  </div>
+  <Spinner :loading="homeStore.homeLoadingHttp.loading" :title="homeStore.homeLoadingHttp.title"
+    :description="homeStore.homeLoadingHttp.description" />
+  <CreatePostModal />
+  <DeleteConfirmationModal />
 </template>
 
 <script setup>
@@ -157,6 +162,7 @@ const router = useRouter();
 
 // ----------STATES AND VARIABLES----------//
 const isFilteredByCategory = ref(false);
+const open = ref(false);
 
 // ----------FUNCTIONS----------//
 const handleFilterCategory = (param) => {
@@ -197,7 +203,7 @@ onMounted(async () => {
 @media (width < 1126px) {
   .container-main {
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     margin-right: 2.5rem
   }
 

@@ -12,7 +12,8 @@
             class="border rounded-lg px-3 py-2 mt-1 text-sm w-full" />
         </NFormItem>
         <NFormItem label="Contraseña">
-          <NInput v-model:value="registerStore.form.password" type="password" placeholder="Ingrese contraseña"
+          <NInput @keydown.enter.prevent="useRegister.registerUser(registerStore.form)"
+            v-model:value="registerStore.form.password" type="password" placeholder="Ingrese contraseña"
             class="border rounded-lg px-3 py-2 mt-1 text-sm w-full" />
         </NFormItem>
         <NButton @click="useRegister.registerUser(registerStore.form)" size="large" type="info"

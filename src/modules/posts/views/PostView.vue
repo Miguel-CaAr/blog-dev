@@ -27,6 +27,7 @@
           </div>
 
           <section class="w-full lg:w-1/4 m-auto mt-12 max-w-screen-sm flex flex-col gap-2 max-h-lvh overflow-auto">
+
             <h1 class="text-2xl font-bold sticky top-0 bg-white">Comentarios</h1>
             <section v-if="loginStore.userAuth.isAuth">
               <NInputGroup>
@@ -52,8 +53,49 @@
               </div>
 
             </template>
+
           </section>
         </div>
+
+        <div class="flex w-full pt-6">
+          <a href="#" class="w-1/2 bg-white p-6 text-left shadow hover:shadow-md">
+            <p class="flex items-center text-lg font-bold text-blue-800"><i class="fas fa-arrow-left pr-1"></i> Anterior
+            </p>
+            <p class="pt-2">Lorem Ipsum Dolor Sit Amet Dolor Sit Amet</p>
+          </a>
+          <a href="#" class="w-1/2 bg-white p-6 text-right shadow hover:shadow-md">
+            <p class="flex items-center justify-end text-lg font-bold text-blue-800">Siguiente <i
+                class="fas fa-arrow-right pl-1"></i></p>
+            <p class="pt-2">Lorem Ipsum Dolor Sit Amet Dolor Sit Amet</p>
+          </a>
+        </div>
+
+        <div class="mb-10 mt-10 flex w-full flex-col bg-white p-6 text-center shadow md:flex-row md:text-left">
+          <div class="flex w-full justify-center pb-4 md:w-1/5 md:justify-start">
+            <img src="https://res.cloudinary.com/duobjlhl9/image/upload/v1721284892/Screenshot_2024-03-31_at_5.04.29_p.m._syzmdy.png"
+              class="h-32 w-32 rounded-full shadow" />
+          </div>
+          <div class="flex flex-1 flex-col justify-center md:justify-start">
+            <p class="text-2xl font-semibold">Miguel</p>
+            <p class="pt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vel neque non libero
+              suscipit suscipit eu eu urna.</p>
+            <div class="flex items-center justify-center pt-4 text-2xl text-blue-800 no-underline md:justify-start">
+              <a class="" href="#">
+                <i class="fab fa-facebook"></i>
+              </a>
+              <a class="pl-4" href="#">
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a class="pl-4" href="#">
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a class="pl-4" href="#">
+                <i class="fab fa-linkedin"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
       </main>
       <!-- main ends here -->
     </div>

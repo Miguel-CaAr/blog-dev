@@ -2,7 +2,7 @@
 import axios from "axios";
 
 //-----------STATES AND VARIABLES-----------//
-const baseURL = "http://127.0.0.1:8000/api/";
+const baseURL = "https://blog-ish1.onrender.com/api/";
 
 //-----------FUNCTIONS-----------//
 const service = axios.create({

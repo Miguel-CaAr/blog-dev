@@ -4,16 +4,14 @@
           flex flex-wrap items-center justify-between
           w-full
           py-4 md:py-0 px-4
-          text-lg text-gray-700
-          bg-white
-          fixed top-0 left-0
+          bg-blue-800
           z-10
           shadow">
             <section class="flex gap-3 cursor-pointer" @click="goHomePage">
-                <svg xmlns="http://www.w3.org/2000/svg" style="width:24px;height:24px;fill:black;" viewBox="0 0 24 24">
+                <svg xmlns="http://www.w3.org/2000/svg" style="width:24px;height:24px;fill:white;" viewBox="0 0 24 24">
                     <path :d="mdiNewspaper" />
                 </svg>
-                <span className="text-black text-lg font-bold">Blog</span>
+                <span className="text-white text-2xl font-bold">Blog</span>
             </section>
 
             <svg @click="hiddenMenu" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer md:hidden block"
@@ -29,9 +27,6 @@
               md:justify-between
               md:pt-0
               gap-3">
-                    <!-- <li>
-                        <NButton class="md:p-4 py-2 block hover:text-purple-400">Categoria</Nbutton>
-                    </li> -->
                     <li class="flex md:my-3 my-2 justify-center items-center gap-2">
                         <NButton @click="homeStore.toggleModeEdition(!homeStore.modeEdition)"
                             v-if="loginStore.userAuth.isAuth" :type="homeStore.modeEdition ? 'warning' : 'info'"

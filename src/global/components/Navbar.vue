@@ -11,7 +11,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" style="width:24px;height:24px;fill:white;" viewBox="0 0 24 24">
                     <path :d="mdiNewspaper" />
                 </svg>
-                <span className="text-white text-2xl font-bold">Blog</span>
+                <span className="text-white text-2xl font-bold">MI-Blog</span>
             </section>
 
             <svg @click="hiddenMenu" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer md:hidden block"

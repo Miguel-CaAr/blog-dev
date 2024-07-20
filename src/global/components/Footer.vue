@@ -1,5 +1,9 @@
 <template>
-    <nav class="flex  bg-blue-800 justify-between px-3 w-[100%]">
+    <nav class="
+        flex h-[7vh] w-[100%]
+        bg-blue-800 
+        justify-between 
+        px-3 ">
         <section class="w-full h-[50px] flex items-center gap-2">
             <span className="text-white text-sm">© 2023 Lorem, ipsum dolor.</span>
         </section>
@@ -14,8 +18,6 @@
     </nav>
 </template>
 
-<script setup>
-
-</script>
+<script setup></script>
 
 <style lang="css" scoped></style>

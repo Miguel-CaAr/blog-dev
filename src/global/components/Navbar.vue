@@ -1,6 +1,7 @@
 <template>
     <header>
         <nav class="
+          h-[7vh]
           flex flex-wrap items-center justify-between
           w-full
           py-4 md:py-0 px-4
@@ -21,12 +22,12 @@
 
             <section ref="menu" class="hidden w-full md:flex md:items-center md:w-auto">
                 <ul class="
-              pt-4
-              text-base text-white
-              md:flex
-              md:justify-between
-              md:pt-0
-              gap-3">
+                    pt-4
+                    text-base text-white
+                    md:flex
+                    md:justify-between
+                    md:pt-0
+                    gap-3">
                     <li class="flex md:my-3 my-2 justify-center items-center gap-2">
                         <NButton @click="homeStore.toggleModeEdition(!homeStore.modeEdition)"
                             v-if="loginStore.userAuth.isAuth" :type="homeStore.modeEdition ? 'warning' : 'info'"

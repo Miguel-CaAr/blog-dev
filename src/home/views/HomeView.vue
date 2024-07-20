@@ -2,7 +2,7 @@
   <main class="flex flex-col h-[86vh]">
     <!-- ! ----------HEADER--------- -->
     <header class="w-full container mx-auto">
-      <div class="flex flex-col items-center py-12">
+      <div class="flex flex-col items-center py-7">
         <a class="font-bold text-gray-800 uppercase hover:text-gray-700 text-5xl">
           MI-Blog
         </a>
@@ -13,7 +13,7 @@
     </header>
 
     <!-- ! ------------CATEGORIES------------ -->
-    <nav class="w-full py-4 border-t border-b bg-gray-100" x-data="{ open: false }">
+    <nav class="w-full py-1 border-t border-b bg-gray-100" x-data="{ open: false }">
       <div class="block sm:hidden">
         <a class="md:hidden text-base font-bold uppercase text-center flex justify-center items-center"
           @click="open = !open">

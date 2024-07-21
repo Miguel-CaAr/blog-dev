@@ -5,6 +5,9 @@ import { defineStore } from "pinia";
 export default defineStore("useHomeStore", () => {
   //----------STATES----------//
   const listOfPosts = ref([]);
+  const numberOfPosts = ref(null);
+  const category = ref(null);
+  const currentPage = ref(1);
   const listComments = ref([]);
   const listOfCategories = ref([]);
   const modeEdition = ref(false);
@@ -82,9 +85,16 @@ export default defineStore("useHomeStore", () => {
     modeEdition.value = toggle;
   };
 
+  const resetCurrentPage = () => {
+    currentPage.value = 1;
+  }
+
   return {
     // States
     listOfPosts,
+    numberOfPosts,
+    currentPage,
+    category,
     listOfCategories,
     homeLoadingHttp,
     createPostModal,
@@ -101,5 +111,6 @@ export default defineStore("useHomeStore", () => {
     clearFormCreatePostModal,
     updatePostModal,
     fillListComments,
+    resetCurrentPage,
   };
 });

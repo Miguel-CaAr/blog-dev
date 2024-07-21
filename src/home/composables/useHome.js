@@ -39,10 +39,33 @@ const getAllPosts = async () => {
     const response = await useRequest.getPosts();
     if (response.data) {
       homeStore.fillListOfPosts(response.data.results);
+      homeStore.numberOfPosts = response.data.count;
     }
   } catch (error) {
     if (error) {
       console.error("🚀 ~ file: useHome.js:25 ~ getAllPosts ~ error:", error);
+    }
+  } finally {
+    homeStore.homeLoadingHttp.loading = false;
+  }
+};
+
+const getAllPostsByPage = async (page) => {
+  try {
+    homeStore.homeLoadingHttp = {
+      loading: true,
+      title: `Cargando publicaciones de la pagina ${page}`,
+      description: "Espere por favor, las publicaciones estan cargando...",
+    };
+    const response = await useRequest.getPostsByPage(page);
+    if (response.data) {
+      homeStore.fillListOfPosts(response.data.results);
+      homeStore.numberOfPosts = response.data.count;
+      homeStore.currentPage = page;
+    }
+  } catch (error) {
+    if (error) {
+      console.log("🚀 ~ file: useHome.js:67 ~ getAllPostsByPage ~ error:", error)
     }
   } finally {
     homeStore.homeLoadingHttp.loading = false;
@@ -59,6 +82,31 @@ const getAllPostsByCategory = async (category) => {
     const response = await useRequest.getPostByCategory(category);
     if (response.data) {
       homeStore.fillListOfPosts(response.data.results);
+      homeStore.numberOfPosts = response.data.count;
+    }
+  } catch (error) {
+    if (error) {
+      console.error(
+        "🚀 ~ file: useHome.js:45 ~ getAllPostsByCategory ~ error:",
+        error
+      );
+    }
+  } finally {
+    homeStore.homeLoadingHttp.loading = false;
+  }
+};
+
+const getAllPostsByCategoryByPage = async (category, page) => {
+  try {
+    homeStore.homeLoadingHttp = {
+      loading: true,
+      title: `Cargando publicaciones de ${category}, pagina ${page}`,
+      description: `Espere por favor, las publicaciones de ${category}, pagina ${page}, estan cargando...`,
+    };
+    const response = await useRequest.getPostByCategoryByPage(category, page);
+    if (response.data) {
+      homeStore.fillListOfPosts(response.data.results);
+      homeStore.numberOfPosts = response.data.count;
     }
   } catch (error) {
     if (error) {
@@ -304,7 +352,9 @@ const generateSlug = (title) => {
 
 export default {
   getAllPosts,
+  getAllPostsByPage,
   getAllPostsByCategory,
+  getAllPostsByCategoryByPage,
   deletePost,
   editPost,
   getAllCategories,

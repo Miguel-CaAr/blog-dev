@@ -60,11 +60,17 @@ const ApiService = {
   postPost(data) {
     return service.post("/post/", data);
   },
+  getPostsByPage(page) {
+    return service.get(`/post/?page=${page}`);
+  },
   getPostBySlug(slug) {
     return service.get(`/post/${slug}/`);
   },
   getPostByCategory(category) {
     return service.get(`/post/?category__title=${category}`);
+  },
+  getPostByCategoryByPage(category, page) {
+    return service.get(`/post/?category__title=${category}&page=${page}`);
   },
   putPost(slug, data) {
     return service.put(`/post/${slug}/`, data);

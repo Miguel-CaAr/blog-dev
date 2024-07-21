@@ -59,7 +59,7 @@
                   </svg>
                 </NButton>
               </span>
-              <NImage :src="'https://res.cloudinary.com/duobjlhl9/' + post.miniature" alt="Blog Cover" class="" />
+              <NImage :src="'https://res.cloudinary.com/duobjlhl9/' + post.miniature" alt="Blog Cover" class="object-cover" />
             </a>
             <div class="bg-white flex flex-col justify-start p-6">
               <div class="flex justify-between">

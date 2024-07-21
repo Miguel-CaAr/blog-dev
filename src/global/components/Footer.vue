@@ -1,6 +1,6 @@
 <template>
     <nav class="
-        flex h-[7vh] w-[100%]
+        flex h-[5vh] w-[100%]
         bg-blue-800 
         justify-between 
         px-3 ">

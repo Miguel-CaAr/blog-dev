@@ -1,7 +1,7 @@
 <template>
     <header>
         <nav class="
-          h-[7vh]
+          h-[6vh]
           flex flex-wrap items-center justify-between
           w-full
           py-4 md:py-0 px-4

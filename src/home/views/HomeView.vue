@@ -90,7 +90,7 @@
         </template>
 
         <!-- !----------Pagination------------ -->
-        <div class="flex items-center py-8">
+        <div v-if="homeStore.listOfPosts.length > 0" class="flex items-center py-8">
           <a
             class="h-10 w-10 bg-blue-800 hover:bg-blue-600 font-semibold text-white text-sm flex items-center justify-center">1</a>
           <a

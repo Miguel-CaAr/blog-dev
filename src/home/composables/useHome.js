@@ -38,7 +38,7 @@ const getAllPosts = async () => {
     };
     const response = await useRequest.getPosts();
     if (response.data) {
-      homeStore.fillListOfPosts(response.data);
+      homeStore.fillListOfPosts(response.data.results);
     }
   } catch (error) {
     if (error) {
@@ -58,7 +58,7 @@ const getAllPostsByCategory = async (category) => {
     };
     const response = await useRequest.getPostByCategory(category);
     if (response.data) {
-      homeStore.fillListOfPosts(response.data);
+      homeStore.fillListOfPosts(response.data.results);
     }
   } catch (error) {
     if (error) {
@@ -164,7 +164,7 @@ const getAllCategories = async () => {
     };
     const response = await useRequest.getCategories();
     if (response.data) {
-      homeStore.fillListOfCategories(response.data);
+      homeStore.fillListOfCategories(response.data.results);
     }
   } catch (error) {
     if (error) {
@@ -231,6 +231,8 @@ const uploadImage = async (file) => {
   formData.append("upload_preset", uploadPreset);
 
   try {
+    if (file === undefined) throw new Error("Error al subir la imagen a Cloudinary");
+
     const response = await fetch(
       `https://api.cloudinary.com/v1_1/${cloudName}/upload`,
       {
@@ -268,7 +270,7 @@ const getComments = async () => {
   try {
     const response = await useRequest.getComments();
     if (response.data) {
-      homeStore.fillListComments(response.data);
+      homeStore.fillListComments(response.data.results);
     }
   } catch (error) {
     if (error) {

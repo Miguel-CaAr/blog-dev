@@ -38,7 +38,7 @@ const getCommentsByPost = async (slug) => {
     };
     const response = await useRequest.getCommentsByPost(slug);
     if (response.data) {
-      postStore.fillCommentsByPost(response.data);
+      postStore.fillCommentsByPost(response.data.results);
     }
   } catch (error) {
     if (error) {

@@ -15,7 +15,8 @@
             </div>
           </div>
           <div class="w-full">
-            <img :src="'https://res.cloudinary.com/duobjlhl9/' + postStore?.post?.miniature" alt="post image"
+            <img v-if="postStore?.post?.miniature"
+              :src="'https://res.cloudinary.com/duobjlhl9/' + postStore?.post?.miniature" alt="post image"
               class="w-full object-cover lg:rounded" style="height: 28em;" />
           </div>
         </div>
@@ -72,7 +73,8 @@
 
         <div class="mb-10 mt-10 flex w-full flex-col bg-white p-6 text-center shadow md:flex-row md:text-left">
           <div class="flex w-full justify-center pb-4 md:w-1/5 md:justify-start">
-            <img src="https://res.cloudinary.com/duobjlhl9/image/upload/v1721284892/Screenshot_2024-03-31_at_5.04.29_p.m._syzmdy.png"
+            <img
+              src="https://res.cloudinary.com/duobjlhl9/image/upload/v1721284892/Screenshot_2024-03-31_at_5.04.29_p.m._syzmdy.png"
               class="h-32 w-32 rounded-full shadow" />
           </div>
           <div class="flex flex-1 flex-col justify-center md:justify-start">

@@ -24,8 +24,10 @@
         <div
           class="w-full container mx-auto flex flex-col sm:flex-row items-center justify-center text-sm font-bold uppercase mt-0 px-6 py-2">
           <template v-for="(category, index) in homeStore.listOfCategories " :key="index">
-            <a @click="filterByCategory(category)" class=" cursor-pointer hover:bg-gray-400
-              rounded py-2 px-4 mx-2">{{ category?.title }}</a>
+            <a @click="filterByCategory(category)" :class="{
+              'shadow-lg': homeStore.category?.title === category?.title,
+            }" class="cursor-pointer hover:bg-gray-400 rounded py-2 px-4 mx-2">{{ category?.title }}
+            </a>
           </template>
         </div>
       </div>
@@ -99,9 +101,9 @@
             class="h-10 w-10 hover:bg-blue-600 font-semibold text-sm flex items-center justify-center cursor-pointer">{{
               number }}
           </a>
-          <a
+          <!-- <a
             class="h-10 w-10 font-semibold text-gray-800 hover:text-gray-900 text-sm flex items-center justify-center ml-3 cursor-pointer">Siguiente
-            <i class="fas fa-arrow-right ml-2"></i></a>
+            <i class="fas fa-arrow-right ml-2"></i></a> -->
         </div>
 
       </section>
@@ -215,7 +217,7 @@ const changePage = (page) => {
 
 const removeFilters = () => {
   homeStore.category = null;
-  useHome.getAllPosts(); 
+  useHome.getAllPosts();
   handleFilterCategory(false);
 };
 

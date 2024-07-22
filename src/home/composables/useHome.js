@@ -256,6 +256,11 @@ const createPost = async (data) => {
         duration: 3000,
       });
     }
+    //Si esta el filtro de categoria y la categoria del nuevo post no coincide con ella...
+    if (homeStore.category?.title && homeStore.category?.title !== response.data.category) {
+      // entonces no se inserta al listado
+      return
+    }
     homeStore.listOfPosts.unshift(response.data);
   } catch (error) {
     if (error) {

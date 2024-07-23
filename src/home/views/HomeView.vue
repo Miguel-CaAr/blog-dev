@@ -1,5 +1,5 @@
 <template>
-  <main class="flex flex-col h-[83.3vh]">
+  <main class="flex flex-col h-[100vh]">
     <!-- ! ----------HEADER--------- -->
     <!-- <header class="w-full container mx-auto">
       <div class="flex flex-col items-center py-7">

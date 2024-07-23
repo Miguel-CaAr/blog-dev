@@ -1,9 +1,11 @@
 <template>
     <nav class="
-        flex h-[5vh] w-[100%]
+        flex
         bg-blue-800 
         justify-between 
-        px-3 ">
+        px-3
+        box-border
+        ">
         <section class="w-full h-[50px] flex items-center gap-2">
             <span className="text-white text-sm">© 2023 Lorem, ipsum dolor.</span>
         </section>

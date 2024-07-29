@@ -1,5 +1,5 @@
 <template>
-  <main class="flex flex-col h-[100vh]">
+  <main class="flex flex-col">
     <!-- ! ----------HEADER--------- -->
     <!-- <header class="w-full container mx-auto">
       <div class="flex flex-col items-center py-7">
@@ -34,7 +34,7 @@
     </nav>
 
     <!-- ! ------------POST SECTION----------- -->
-    <div class="container mx-auto flex flex-wrap py-6 overflow-auto">
+    <div class="container mx-auto flex flex-wrap py-6">
 
       <!-- Posts Section -->
       <section class="w-full md:w-2/3 flex flex-col items-center px-3">

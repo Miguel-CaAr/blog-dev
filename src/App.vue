@@ -1,7 +1,7 @@
 <template>
-  <Navbar v-if="isNotAuthRoute" />
-  <RouterView />
-  <Footer v-if="isNotAuthRoute" />
+    <Navbar v-if="isNotAuthRoute" />
+    <RouterView />
+    <Footer v-if="isNotAuthRoute" />
 </template>
 
 <script setup>

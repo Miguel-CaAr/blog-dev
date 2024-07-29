@@ -29,6 +29,10 @@
             }" class="cursor-pointer hover:bg-gray-400 rounded py-2 px-4 mx-2">{{ category?.title }}
             </a>
           </template>
+
+          <template v-if="homeStore.listOfCategories.length <= 0">
+            <NSkeleton width="130px" height="35px" :repeat="4" class="rounded py-2 px-4 mx-2" />
+          </template>
         </div>
       </div>
     </nav>
@@ -43,6 +47,16 @@
             @click="removeFilters()">Remover filtros
           </NButton>
         </section>
+
+        <template v-if="homeStore.homeLoadingHttp.loading">
+          <CardLoading />
+        </template>
+
+        <template v-if="!homeStore.homeLoadingHttp.loading && homeStore.listOfPosts.length <= 0">
+          <div class="h-lvh pt-[20%]">
+            <NEmpty size="huge" description="No hay publicaciones de la categoria seleccionada" />
+          </div>
+        </template>
 
         <template v-for="(post, index) in homeStore.listOfPosts" :key="index">
           <article class="flex flex-col shadow my-4">
@@ -145,8 +159,8 @@
 
     </div>
   </main>
-  <Spinner :loading="homeStore.homeLoadingHttp.loading" :title="homeStore.homeLoadingHttp.title"
-    :description="homeStore.homeLoadingHttp.description" />
+  <!-- <Spinner :loading="homeStore.homeLoadingHttp.loading" :title="homeStore.homeLoadingHttp.title"
+    :description="homeStore.homeLoadingHttp.description" /> -->
   <CreatePostModal />
   <DeleteConfirmationModal />
 </template>
@@ -166,14 +180,16 @@ import useLoginStore from "../../auth/stores/useLoginStore.js";
 
 // -----------COMPONENTS----------//
 import {
-  NEmpty,
   NImage,
   NButton,
+  NSkeleton,
+  NEmpty,
 } from "naive-ui";
 import Spinner from '../../global/components/Spinner.vue';
 import CreatePostModal from '../components/CreatePostModal.vue';
 import DeleteConfirmationModal from '../components/DeleteConfirmation.vue';
 import { mdiPencilOutline, mdiTrashCanOutline } from '@mdi/js';
+import CardLoading from "../components/CardLoading.vue";
 
 // ----------CONFIG----------//
 const homeStore = useHomeStore();

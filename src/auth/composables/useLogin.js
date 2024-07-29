@@ -4,9 +4,12 @@ import { createDiscreteApi } from "naive-ui";
 
 // ------------STORES----------//
 import useLoginStore from "../stores/useLoginStore";
+import useHomeStore from "../../home/stores/useHomeStore";
 
 // ---------CONFIG---------//
 const loginStore = useLoginStore();
+const homeStore = useHomeStore();
+
 const { notification, message } = createDiscreteApi(
   ["notification", "message"],
   {
@@ -23,6 +26,11 @@ const { notification, message } = createDiscreteApi(
 
 // ----------FUNCTIONS----------//
 const loginUser = async (data) => {
+  homeStore.homeLoadingHttp = {
+    loading: true,
+    title: `Iniciando sesión`,
+    description: `Espere por favor...`,
+  };
   try {
     const response = await useRequest.login(data);
     if (response) {
@@ -47,6 +55,7 @@ const loginUser = async (data) => {
       });
     }
   } finally {
+    homeStore.homeLoadingHttp.loading = false;
   }
 };
 

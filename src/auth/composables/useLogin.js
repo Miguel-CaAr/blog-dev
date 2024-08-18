@@ -11,7 +11,7 @@ const loginStore = useLoginStore();
 const homeStore = useHomeStore();
 
 const { notification, message } = createDiscreteApi(
-  ["notification", "message"],
+  [ "notification", "message" ],
   {
     notificationProviderProps: {
       max: 10,
@@ -46,13 +46,23 @@ const loginUser = async (data) => {
     }
   } catch (error) {
     if (error) {
-      notification.error({
-        title: error.name,
-        content: error.message,
-        type: error.type,
-        description: error.naiveDesc,
-        duration: error.naiveDuration,
-      });
+      if (error.response.status === 401) {
+        notification.warning({
+          title: 'Datos incorrectos',
+          content: 'El correo o la contraseña son incorrectos',
+          type:'warning',
+          description: error.naiveDesc,
+          duration: error.naiveDuration,
+        });
+      } else {
+        notification.error({
+          title: error.name,
+          content: error.message,
+          type: error.type,
+          description: error.naiveDesc,
+          duration: error.naiveDuration,
+        });
+      }
     }
   } finally {
     homeStore.homeLoadingHttp.loading = false;

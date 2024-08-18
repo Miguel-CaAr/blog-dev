@@ -1,5 +1,6 @@
 <template>
-  <div class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 spinner-container"
+  <div
+    class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 spinner-container"
     v-if="loading">
     <div
       class="bg-gray-100 p-6 rounded-lg shadow-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
@@ -29,31 +30,27 @@ import { NSpin } from "naive-ui";
  * @property {String} description Descripcion del spinner
  */
 
-
 /**
  * @type {Props} props
  */
-const props = defineProps(
-  {
-    loading: {
-      type: Boolean,
-      required: true,
-      default: false,
-    },
-    title: {
-      type: [String, null],
-      required: true,
-      default: 'Cargando...',
-    },
-    description: {
-      type: String,
-      default: '',
-    },
-  }
-)
-const { loading, description, title } = toRefs(props)
+const props = defineProps({
+  loading: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
+  title: {
+    type: [String, null],
+    required: true,
+    default: "Cargando...",
+  },
+  description: {
+    type: String,
+    default: "",
+  },
+});
+const { loading, description, title } = toRefs(props);
 </script>
-
 
 <style scoped lang="css">
 .spinner-container {

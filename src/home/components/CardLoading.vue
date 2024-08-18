@@ -30,9 +30,7 @@
 </template>
 
 <script setup>
-import {
-  NSkeleton
-} from "naive-ui";
+import { NSkeleton } from "naive-ui";
 </script>
 
 <style lang="css" scoped></style>

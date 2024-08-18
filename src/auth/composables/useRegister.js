@@ -11,7 +11,7 @@ const registerStore = useRegisterStore();
 const homeStore = useHomeStore();
 
 const { notification, message } = createDiscreteApi(
-  ["notification", "message"],
+  [ "notification", "message" ],
   {
     notificationProviderProps: {
       max: 10,
@@ -43,21 +43,34 @@ const registerUser = async (data) => {
     }
   } catch (error) {
     if (error) {
-      notification.error({
-        title: error.name,
-        content: error.message,
-        type: error.type,
-        description: error.naiveDesc,
-        duration: error.naiveDuration,
-      });
-      console.log(
-        "🚀 ~ file: useRegister.js:38 ~ registerUser ~ error:",
-        error
-      );
+      if (error.response.status === 400) {
+        notification.warning({
+          title: 'Datos existentes',
+          content: `Los siguientes datos ya existen: ${dataAlreadyExists(error.request.response)}`,
+          type: 'warning',
+          description: error.naiveDesc,
+          duration: error.naiveDuration,
+        });
+      } else {
+        notification.error({
+          title: error.name,
+          content: error.message,
+          type: error.type,
+          description: error.naiveDesc,
+          duration: error.naiveDuration,
+        });
+      }
     }
   } finally {
     homeStore.homeLoadingHttp.loading = false;
   }
+};
+
+const dataAlreadyExists = (_data) => {
+  const dataToObject = JSON.parse(_data);
+  const keysOfObject = Object.keys(dataToObject);
+
+  return keysOfObject.toString();
 };
 
 export default {
